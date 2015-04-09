@@ -223,6 +223,7 @@
 .all_products {
     margin: 0 !important;
     text-align: center;
+    font-size: 16px !important;
 }
 .column.wide {
     font-size: 12px !important;
@@ -272,15 +273,13 @@
     </div>
 </div>
 
-
-
         <!-- CONTENT -->
         <div id="container_for_page_body">
+            <div cellspacing="0" class="ui grid product_table all_products ftable ">
 
-            <div class="ui grid all_products ftable ">
                 <div class="row ftr caption ">
                     <div class="column wide two ftd"></div>
-                    <div class="column wide four ftd">Name</div>
+                    <div class="column wide six ftd">Name</div>
                     <div class="column wide two ftd">Price</div>
                     <div class="column wide two ftd">Seller</div>
                     <div class="column wide two ftd">Status</div>
@@ -316,7 +315,7 @@
                         <div class="column wide two ftd">
                             <a href="<?php echo $web['url']; ?>edit/<?php echo $row['id']; ?>" target="_blank"><img src="<?php echo $web['url']; echo $row['thumbnail']; ?>"/></a>
                         </div>
-                        <div class="column wide four ftd" >
+                        <div class="column wide six ftd" >
                             <a href="<?php echo $web['url']; ?>edit/<?php echo $row['id']; ?>" target="_blank"><?php echo $row['name']; ?></a>
                         </div>
                         <div class="column wide two ftd">
@@ -356,14 +355,7 @@
                 <div class="clear_both"></div>
 
             </div>
-
-            <div class="pagination" style="opacity: 1;">
-        <ul>
-            
-            
-            
-        </ul>
-    </div>
+        </div>
 </div>
 
         <div id="container_for_pagintion"></div>

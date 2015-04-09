@@ -1,8 +1,8 @@
 <?php
 ob_start();
 session_start();
-error_reporting(0);
-//error_reporting(E_ALL & ~E_NOTICE);
+//error_reporting(0);
+error_reporting(E_ALL & ~E_NOTICE);
 if(file_exists("./install.php")) {
 	header("Location: ./install.php?step=0");
 } 

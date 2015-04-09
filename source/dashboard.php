@@ -270,7 +270,7 @@
                                     $usern = $_SESSION['ps_usern'];
                                     $sales = 0;
                                     $earning = 0;
-                                    $where = "WHERE usern='$usern'";
+                                    $where = "WHERE usern='$usern' ";
                                     $sql = mysql_query("SELECT sum(sales) as total_sales, sum(earnings) as total_earning FROM sellify_items $where ");
                                     if(mysql_num_rows($sql)>0) {
                                         $row = mysql_fetch_array($sql);

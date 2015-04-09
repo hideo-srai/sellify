@@ -281,7 +281,7 @@
             $statement = "`sellify_items`";
 
             $usern = $_SESSION['ps_usern'];
-            $where = "WHERE usern='$usern'";
+            $where = "WHERE usern='$usern' and status < 10";
 
             $sql = mysql_query("SELECT * FROM {$statement} $where ORDER BY id DESC LIMIT {$startpoint} , {$limit}");
             if(mysql_num_rows($sql)>0) {
@@ -330,13 +330,6 @@
         <div class="clear_both"></div>
     </div>
 
-    <div class="pagination" style="opacity: 1;">
-        <ul>
-            
-            
-            
-        </ul>
-    </div>
 </div>
 
         <div id="container_for_pagintion"></div>
