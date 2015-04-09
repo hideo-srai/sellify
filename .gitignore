@@ -1,0 +1,6 @@
+/.idea
+/uploads
+.env
+.DS_Store
+Thumbs.db
+*.log

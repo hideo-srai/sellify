@@ -1,0 +1,39 @@
+<IfModule mod_rewrite.c>
+
+RewriteEngine on
+RewriteBase /
+RewriteRule ^not_found?$ index.php?m=not_found [L]
+RewriteRule ^search?$ index.php?m=search [L]
+RewriteRule ^/?$ index.php?m=home [L]
+RewriteRule ^admin/change_password?$ index.php?m=change_password [L]
+RewriteRule ^admin/change_password/?$ index.php?m=change_password [L]
+RewriteRule ^admin/settings?$ index.php?m=settings [L]
+RewriteRule ^admin/settings/?$ index.php?m=settings [L]
+RewriteRule ^admin/payments?$ index.php?m=payments [L]
+RewriteRule ^admin/payments/?$ index.php?m=payments [L]
+RewriteRule ^admin/dashboard?$ dashboard.php [L]
+RewriteRule ^login/?$ index.php?m=login [L]
+RewriteRule ^login?$ index.php?m=login [L]
+RewriteRule ^signup/?$ index.php?m=signup [L]
+RewriteRule ^signup?$ index.php?m=signup [L]
+RewriteRule ^products/?$ index.php?m=my_products [L]
+RewriteRule ^products?$ index.php?m=my_products [L]
+RewriteRule ^edit/(.*)?$ index.php?m=edit&id=$1 [L]
+RewriteRule ^payment/(.*)?$ index.php?m=check_payment&method=paypal [L]
+RewriteRule ^download/(.*)?$ index.php?m=download&id=$1 [L]
+RewriteRule ^delete/(.*)?$ index.php?m=delete&id=$1 [L]
+RewriteRule ^confirm_delete/(.*)?$ index.php?m=delete&id=$1&confirmed=yes [L]
+RewriteRule ^upload?$ index.php?m=add_new [L]
+RewriteRule ^upload/?$ index.php?m=add_new [L]
+RewriteRule ^dashboard?$ index.php?m=dashboard [L]
+RewriteRule ^dashboard/?$ index.php?m=dashboard [L]
+RewriteRule ^admin?$ index.php?m=dashboard [L]
+RewriteRule ^admin/?$ index.php?m=dashboard [L]
+RewriteRule ^logout?$ index.php?m=logout [L]
+RewriteRule ^p/(.*)?$ index.php?m=item&id=$1 [L]
+RewriteRule ^item/(.*)?$ index.php?m=item&id=$1 [L]
+RewriteRule ^buy/(.*)/(.*)/(.*)?$ index.php?m=buy&id=$1&licanse=$2&method=$3&sandbox=1 [L]
+
+RewriteRule ^install?$ install.php [L]
+
+</IfModule>
