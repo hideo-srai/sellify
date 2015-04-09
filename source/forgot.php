@@ -227,72 +227,8 @@
 </head>
 <body class="">
   <script>ga('send', 'pageview');</script>
-  
-    
-<nav class="ui grid full-width sellfy-header">
-  <div class="row">
-    <div class="column four wide left aligned">
-      <div onmousedown="return false">
-		<a href="<?php echo $web['url']; ?>"><img src="<?php echo $web['url']; ?>static/logo/logo.png" alt="logo" style="width:240px; height:46px;"  /></a>
-	  </div>
-    </div>
-    <div class="column twelve wide right aligned connect-panel">
-      <a href="<?php echo $web['url']; ?>dashboard" data-pushstate="true" class="header-menu no-mobile" data-top-menu="dashboard"
-        title="Go to my dashboard">
-        Dashboard
-      </a>
-	  <span>&nbsp;</span>
-      <a href="<?php echo $web['url']; ?>upload" data-pushstate="true" class="header-menu no-mobile" data-top-menu="newProduct" title="Upload new product">
-        Upload
-      </a>
-	  <span>&nbsp;</span>
-      <div class="ui top right pointing dropdown text header-dropdown-right">
-        <span class="header-merchant-logo header-dropdown-url" style="background-image: url('<?php echo $web['url']; ?>static/logo/avatar.png')"></span>
-        <i class="fa fa-angle-down"></i>
-        <div class="menu header-notification-dropdown">
-          <div class="item double red">
-            <a class="visible">
-              <p style="font-weight:bold"><span style="color:black"><?php echo $web['title']; ?></span></p>
-            </a>
-            <a class="hidden" href="<?php echo $web['url']; ?>">
-              View my store page <span>&nbsp;</span><span>&nbsp;</span><span>&nbsp;</span><span>&nbsp;</span><i class="fa fa-angle-right"></i>
-            </a>
-          </div>
-          <div class="ui divider"></div>
-          <div class="item">
-            <a href="<?php echo $web['url']; ?>dashboard" data-pushstate="true" title="Go to my dashboard">
-              My dashboard
-            </a>
-          </div>
-          <div class="item">
-            <a href="<?php echo $web['url']; ?>products" data-pushstate="true" title="Go to my products">
-              My products
-            </a>
-          </div>
-          <div class="ui divider"></div>
-          <div class="item">
-            <a href="<?php echo $web['url']; ?>admin/settings" data-pushstate="true" title="Edit my settings">
-              Admin panel
-            </a>
-          </div>
-          <div class="item">
-            <a href="http://discuss.nidigo.com/" target="_blank" title="Support Center">
-              Help
-            </a>
-          </div>
-          <div class="item double red" title="Log out">
-            <a class="visible">
-              Log out
-            </a>
-            <a class="hidden" href="<?php echo $web['url']; ?>logout">
-              Are you sure?
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</nav>
+
+  <?php include 'menu.php' ?>
 
 <div class="body">
     <div class="body-content">
@@ -327,30 +263,8 @@
         </div>
     </div>
 </div>
-        <div class="my_account">
-            <div id="left_sidebar">
-                <div id="left_menu">
-    <div class="ui vertical fluid menu">
-		<a href="<?php echo $web['url']; ?>dashboard" data-pushstate="true" class="green item" id="menu_location_settings">
-            <i class="beta-custom-icon icon"></i>
-			Dashboard
-        </a>
-		<a href="<?php echo $web['url']; ?>admin/settings" data-pushstate="true" class="red item" id="menu_account">
-            System Settings
-        </a>
-		<a href="<?php echo $web['url']; ?>admin/payments" data-pushstate="true" class="red item" id="menu_location_settings">
-            Payment Settings
-        </a>
-        <a href="<?php echo $web['url']; ?>admin/change_password" data-pushstate="true" class="red item active" id="menu_payment_options">
-            Change Password
-        </a>
-		<a href="<?php echo $web['url']; ?>logout" data-pushstate="true" class="red item" id="menu_payment_options">
-            Logout
-        </a>
-    </div>
-</div>
-            </div>
-        </div>
+        <?php include 'sidemenu.php' ?>
+
         <div id="content_container">
     <div id="content">
         <!-- PAGE TITLE --->

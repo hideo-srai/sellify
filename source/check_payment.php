@@ -381,7 +381,7 @@
 									echo '<p align="center">Payment is successful. You will receive an automated message from the system with a download link and code.</p>';
 									echo '</div>';
 									$update = mysql_query("UPDATE sellify_settings SET earnings=earnings+$payment_amount");
-									$update = mysql_query("UPDATE sellify_items SET sales=sales+1 WHERE id='$item_number'");
+									$update = mysql_query("UPDATE sellify_items SET sales=sales+1, earnings=earnings+$payment_amount  WHERE id='$item_number'");
 									$random_password=md5(uniqid(rand()));
 									$email_code=substr($random_password, 0, 12);
 									$insert = mysql_query("INSERT sellify_download_codes (item_id,email,code) VALUES ('$item_number','$payer_email','$email_code')");
@@ -520,10 +520,9 @@
 					$item_name = $_POST['detail1_description'];
 					$payment_amount = $_POST['mb_amount'];
 					$expl = explode(", licanse: ",$item_name);
-					$license_type = $expl[1];
 					echo success("Payment is successful. You will receive an automated message from the system with a download link and code. With one code can be downloaded once the item.");
 								$update = mysql_query("UPDATE sellify_settings SET earnings=earnings+$payment_amount");
-								$update = mysql_query("UPDATE sellify_items SET sales=sales+1 WHERE id='$item_number'");
+								$update = mysql_query("UPDATE sellify_items SET sales=sales+1, earnings=earnings+$payment_amount WHERE id='$item_number'");
 								$random_password=md5(uniqid(rand()));
 								$email_code=substr($random_password, 0, 12);
 								$insert = mysql_query("INSERT sellify_download_codes (item_id,email,code) VALUES ('$item_number','$payer_email','$email_code')");

@@ -342,9 +342,6 @@
 		<a href="<?php echo $web['url']; ?>admin/payments" data-pushstate="true" class="red item" id="menu_location_settings">
             Payment Settings
         </a>
-        <a href="<?php echo $web['url']; ?>admin/change_password" data-pushstate="true" class="green item " id="menu_payment_options">
-            Change Password
-        </a>
 		<a href="<?php echo $web['url']; ?>logout" data-pushstate="true" class="red item" id="menu_payment_options">
             Logout
         </a>

@@ -230,126 +230,64 @@
 </head>
 <body class="">
   <script>ga('send', 'pageview');</script>
-  
-    
 
 
-<nav class="ui grid full-width sellfy-header">
-  <div class="row">
-    <div class="column four wide left aligned">
-      <div onmousedown="return false">
-		<a href="<?php echo $web['url']; ?>"><img src="<?php echo $web['url']; ?>static/logo/logo.png" alt="logo" style="width:240px; height:46px;"  /></a>
-	  </div>
-    </div>
-    <div class="column twelve wide right aligned connect-panel">
-      <a href="<?php echo $web['url']; ?>dashboard" data-pushstate="true" class="header-menu no-mobile" data-top-menu="dashboard"
-        title="Go to my dashboard">
-        Dashboard
-      </a>
-	  <span>&nbsp;</span>
-      <a href="<?php echo $web['url']; ?>upload" data-pushstate="true" class="header-menu no-mobile" data-top-menu="newProduct" title="Upload new product">
-        Upload
-      </a>
-	  <span>&nbsp;</span>
-      <div class="ui top right pointing dropdown text header-dropdown-right">
-        <span class="header-merchant-logo header-dropdown-url" style="background-image: url('<?php echo $web['url']; ?>static/logo/avatar.png')"></span>
-        <i class="fa fa-angle-down"></i>
-        <div class="menu header-notification-dropdown">
-          <div class="item double red">
-            <a class="visible">
-              <p style="font-weight:bold"><span style="color:black"><?php echo $web['title']; ?></span></p>
-            </a>
-            <a class="hidden" href="<?php echo $web['url']; ?>">
-              View my store page <span>&nbsp;</span><span>&nbsp;</span><span>&nbsp;</span><span>&nbsp;</span><i class="fa fa-angle-right"></i>
-            </a>
-          </div>
-          <div class="ui divider"></div>
-          <div class="item">
-            <a href="<?php echo $web['url']; ?>dashboard" data-pushstate="true" title="Go to my dashboard">
-              My dashboard
-            </a>
-          </div>
-          <div class="item">
-            <a href="<?php echo $web['url']; ?>products" data-pushstate="true" title="Go to my products">
-              My products
-            </a>
-          </div>
-          <div class="ui divider"></div>
-          <div class="item">
-            <a href="<?php echo $web['url']; ?>admin/settings" data-pushstate="true" title="Edit my settings">
-              Admin panel
-            </a>
-          </div>
-          <div class="item">
-            <a href="http://discuss.nidigo.com/" target="_blank" title="Support Center">
-              Help
-            </a>
-          </div>
-          <div class="item double red" title="Log out">
-            <a class="visible">
-              Log out
-            </a>
-            <a class="hidden" href="<?php echo $web['url']; ?>logout">
-              Are you sure?
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</nav>
+  <?php include 'menu.php' ?>
+
   <div class="body">
     <div class="body-content">
 	<div id="container" class="main-content-wrap">
     <div id="content_wrap" class="inner_wrap">
       <?php
-			if(isset($_POST['phps_upload'])) {
-						$name = protect($_POST['name']);
-						$description = $_POST['description1'];
-						$price_regular = protect($_POST['price_regular']);
-						$price_extended = protect($_POST['price_extended']);
-						$demo_url = protect($_POST['demo_url']);
-						$video_url = protect($_POST['video_url']);
-						$category_id = protect($_POST['category_id']);
-						$thumbnail = $_FILES['thumbnail_file']['name'];
-						$preview = $_FILES['preview_file']['name'];
-						$main = $_FILES['main_file']['name'];
-						$check_dir = $web['main_folder_name'];
-						if(!is_dir($check_dir)) { mkdir($check_dir); $contents = '<?php header("Location: ../"); ?>'; file_put_contents($check_dir."index.php",$contents); }
-						
-						if(empty($name) or empty($description) or empty($price_extended)) { echo '<div class="alert color red-color"><p align="center">You must fill in <strong>all required fields</strong> before to continue.</p></div>'; }
-						elseif(!is_numeric($price_extended)) { echo '<div class="alert color red-color"><p align="center">Price must be with numeric for example: 15.00 or 15</p></div>'; }
-						else {
-							$insert = mysql_query("INSERT sellify_items (name,description,price_regular,price_extended,demo_url,video_url,category_id) VALUES ('$name','$description','$price_regular','$price_extended','$demo_url','$video_url','$category_id')");
-							$row = mysql_fetch_array(mysql_query("SELECT * FROM sellify_items ORDER BY id DESC LIMIT 1"));
-							$folder_name = $row['id'] * 2;
-							$folder_name_2 = $folder_name * 5;
-							$check_dir1 = 'uploads/'.$folder_name;
-							$check_dir2 = $check_dir.'/'.$folder_name_2;
-							if(!is_dir($check_dir1)) { mkdir($check_dir1); }
-							if(!is_dir($check_dir2)) { mkdir($check_dir2); }
-							$thumbnail_path = $check_dir1."/".basename($_FILES['thumbnail_file']['name']);
-							$preview_path = $check_dir1."/".basename($_FILES['preview_file']['name']);
-							$main_path = $check_dir2."/".basename($_FILES['main_file']['name']);
-							$error = 0;
-							$upload_path = './';
-							if(@move_uploaded_file($_FILES['thumbnail_file']['tmp_name'], $upload_path.$thumbnail_path)) { $error = 0; } else { $error = 1; }
-							if(@move_uploaded_file($_FILES['preview_file']['tmp_name'], $upload_path.$preview_path)) { $error = 0; } else { $error = 1; }
-							if(@move_uploaded_file($_FILES['main_file']['tmp_name'], $upload_path.$main_path)) { $error = 0; } else { $error = 1; }
-							if($error == 0) {
-								$update = mysql_query("UPDATE sellify_items SET thumbnail='$thumbnail_path',preview='$preview_path',main_file='$main_path' WHERE id='$row[id]'");
-								$link = '<a href="'.$web[url].'item/'.$row[id].'">'.$row[name].'</a>';
-								echo '<div class="alert color blue">';
-								echo '<p align="center"><a href="'.$web[url].'item/'.$row[id].'"><span style="color:white">Item was added successfully. Preview here: '.$row[name].'</span></a></p>';
-								echo '</div>';
-							} else {
-								echo '<div class="alert color red-color">';
-								echo '<p align="center">Uploading error! <strong>Please try again.</strong></p>';
-								echo '</div>';
-							}
-						}
-			}
-			?>
+            if(isset($_POST['phps_upload'])) {
+                $name = protect($_POST['name']);
+                $description = $_POST['description1'];
+                $price_regular = protect($_POST['price_regular']);
+                $price_extended = protect($_POST['price_extended']);
+                $demo_url = protect($_POST['demo_url']);
+                $video_url = protect($_POST['video_url']);
+                $category_id = protect($_POST['category_id']);
+                $thumbnail = $_FILES['thumbnail_file']['name'];
+                $preview = $_FILES['preview_file']['name'];
+                $main = $_FILES['main_file']['name'];
+                $check_dir = $web['main_folder_name'];
+                $usern = $_SESSION['ps_usern'];
+
+                if(!is_dir($check_dir)) { mkdir($check_dir); $contents = '<?php header("Location: ../"); ?>'; file_put_contents($check_dir."index.php",$contents); }
+
+                if(empty($name) or empty($description) or empty($price_extended)) { echo '<div class="alert color red-color"><p align="center">You must fill in <strong>all required fields</strong> before to continue.</p></div>'; }
+                elseif(!is_numeric($price_extended)) { echo '<div class="alert color red-color"><p align="center">Price must be with numeric for example: 15.00 or 15</p></div>'; }
+                else {
+                    $insert = mysql_query("INSERT sellify_items (name,usern, description,price_regular,price_extended,demo_url,video_url,category_id) VALUES ('$name', '$usern', '$description','$price_regular','$price_extended','$demo_url','$video_url','$category_id')");
+                    $row = mysql_fetch_array(mysql_query("SELECT * FROM sellify_items ORDER BY id DESC LIMIT 1"));
+                    $folder_name = $row['id'] * 2;
+                    $folder_name_2 = $folder_name * 5;
+                    $check_dir1 = 'uploads/'.$folder_name;
+                    $check_dir2 = $check_dir.'/'.$folder_name_2;
+                    if(!is_dir($check_dir1)) { mkdir($check_dir1); }
+                    if(!is_dir($check_dir2)) { mkdir($check_dir2); }
+                    $thumbnail_path = $check_dir1."/".basename($_FILES['thumbnail_file']['name']);
+                    $preview_path = $check_dir1."/".basename($_FILES['preview_file']['name']);
+                    $main_path = $check_dir2."/".basename($_FILES['main_file']['name']);
+                    $error = 0;
+                    $upload_path = './';
+                    if(@move_uploaded_file($_FILES['thumbnail_file']['tmp_name'], $upload_path.$thumbnail_path)) { $error = 0; } else { $error = 1; }
+                    if(@move_uploaded_file($_FILES['preview_file']['tmp_name'], $upload_path.$preview_path)) { $error = 0; } else { $error = 1; }
+                    if(@move_uploaded_file($_FILES['main_file']['tmp_name'], $upload_path.$main_path)) { $error = 0; } else { $error = 1; }
+                    if($error == 0) {
+                        $update = mysql_query("UPDATE sellify_items SET thumbnail='$thumbnail_path',preview='$preview_path',main_file='$main_path' WHERE id='$row[id]'");
+                        $link = '<a href="'.$web[url].'item/'.$row[id].'">'.$row[name].'</a>';
+                        echo '<div class="alert color blue">';
+                        echo '<p align="center"><a href="'.$web[url].'item/'.$row[id].'"><span style="color:white">Item was added successfully. Preview here: '.$row[name].'</span></a></p>';
+                        echo '</div>';
+                    } else {
+                        echo '<div class="alert color red-color">';
+                        echo '<p align="center">Uploading error! <strong>Please try again.</strong></p>';
+                        echo '</div>';
+                    }
+                }
+            }
+        ?>
         <div id="container_for_notification" style="display: none;">
     <div id="notification_box" class="ui message message-notification" style="position: static;">
         <i id="not_icon" class="warning icon"></i>
@@ -360,40 +298,7 @@
         </div>
     </div>
 </div>
-        <div class="my_account">
-            <div id="left_sidebar">
-                <div id="left_menu">
-    <div class="ui vertical fluid menu">        
-        <a href="<?php echo $web['url']; ?>dashboard" data-pushstate="true" class="red item" id="menu_dashboard">                
-            <i class="beta-custom-icon icon"></i>
-            Dashboard
-        </a>
-        <div class="header item">                
-            Products
-        </div>
-        <div class="item">
-            <div class="menu submenu">                
-                <a href="<?php echo $web['url']; ?>upload" data-pushstate="true" class="red item active">Add new product</a>                
-                <a href="<?php echo $web['url']; ?>products" data-pushstate="true" class="item red">My products</a>
-            </div>
-        </div>
-		<div class="header item">                
-            Admin panel
-        </div>
-        <div class="item">
-            <div class="menu submenu">                
-                <a href="<?php echo $web['url']; ?>admin/settings" data-pushstate="true" class="red item">System Settings</a>                
-                <a href="<?php echo $web['url']; ?>admin/payments" data-pushstate="true" class="item red">Payment Settings</a>
-				<a href="<?php echo $web['url']; ?>admin/change_password" data-pushstate="true" class="item red">Change Password</a>
-            </div>
-        </div>
-		<a href="<?php echo $web['url']; ?>logout" data-pushstate="true" class="red item" id="menu_dashboard">                
-            Logout
-        </a>
-	</div>
-</div>
-            </div>
-        </div>
+      <?php include 'sidemenu.php' ?>
         <div id="content_container">
     <div id="content">
 
