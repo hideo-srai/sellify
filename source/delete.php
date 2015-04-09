@@ -310,8 +310,7 @@
 			?>
 			<?php
 			if($_GET['confirmed'] == "yes") {
-				$delete = mysql_query("DELETE FROM sellify_items WHERE id='$id'");
-				$delete = mysql_query("DELETE FROM comments WHERE item_id='$id'");
+				$delete = mysql_query("UPDATE sellify_items SET status = 10 WHERE id='$id'");
 				echo '<div class="alert color blue">';
 				echo '<p align="center">Product ('.($row[name]).') was deleted.</p>';
 				echo '</div>';

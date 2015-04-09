@@ -1,4 +1,4 @@
-<?php if(!$_SESSION['ps_usern']) { $redirect = $web['url']."login"; header("Location:$redirect"); } ?>
+<?php if(!$_SESSION['ps_usern'] || $_SESSION['ps_usern'] != 'admin') { $redirect = $web['url']."login"; header("Location:$redirect"); } ?>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -10,6 +10,7 @@
 		<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 		
 		<!-- Stylesheets -->
+
 		<link rel="stylesheet" href="<?php echo $web['url']; ?>static/gen/packed_global.css">
 		<link rel="stylesheet" href="<?php echo $web['url']; ?>static/gen/packed_productpage.css">
 		<link rel="stylesheet" href="<?php echo $web['url']; ?>static/gen/packed_marketplace.css">
@@ -219,6 +220,14 @@
 	color:#FF9742;
 }
 
+.all_products {
+    margin: 0 !important;
+    text-align: center;
+}
+.column.wide {
+    font-size: 12px !important;
+    font-weight: normal;
+}
 #footer {
     padding-top: 50px;
 }
@@ -262,75 +271,93 @@
         <span class="icon  without-description"></span>
     </div>
 </div>
-        <!-- TABS -->
-        <div id="container_for_tabs"></div>
+
+
+
         <!-- CONTENT -->
         <div id="container_for_page_body">
-    <div cellspacing="0" class="product_table all_products ftable">
-        <div class="ftr caption">
-            <div class="ftd product_details">Product details</div>
-            <div class="ftd buy_now_link">Sales</div>
-            <div class="ftd">Actions</div>
-        </div>
-        <!-- TE IET ROWS -->
-		
-		<?php
-            $page = (int) (!isset($_GET["page"]) ? 1 : $_GET["page"]);
-            $limit = 2;
-            $startpoint = ($page * $limit) - $limit;
-            $statement = "`sellify_items`";
 
-            $usern = $_SESSION['ps_usern'];
-            $where = "WHERE usern='$usern'";
-
-            $sql = mysql_query("SELECT * FROM {$statement} $where ORDER BY id DESC LIMIT {$startpoint} , {$limit}");
-            if(mysql_num_rows($sql)>0) {
-            while($row = mysql_fetch_array($sql)) {
-            ?>
-        
-        <div class="ftr" id="gmdf">
-            <div class="ftd product_details">
-                <a href="<?php echo $web['url']; ?>p/<?php echo $row['id']; ?>" target="_blank"><div class="product_image" style="background-image: url(<?php echo $web['url']; echo $row['thumbnail']; ?>);">
-                </div></a>
-                <div class="product_details_holder">
-                    <span class="prod_title">
-                        <a href="<?php echo $web['url']; ?>p/<?php echo $row['id']; ?>" target="_blank"><?php echo $row['name']; ?></a>
-                    </span>
-					<span class="file_info"><?php if($web['currency'] == 'USD') { ?><?php echo decode_currency($web['currency']); echo $row['price_extended']; ?><?php } ?><?php if($web['currency'] == 'EUR') { ?><?php echo $row['price_extended']; echo decode_currency($web['currency']); ?><?php } ?></span>
-                    <a href="<?php echo $web['url']."edit/".$row['id']; ?>" data-pushstate="true" class="button_a">Edit</a>
+            <div class="ui grid all_products ftable ">
+                <div class="row ftr caption ">
+                    <div class="column wide two ftd"></div>
+                    <div class="column wide four ftd">Name</div>
+                    <div class="column wide two ftd">Price</div>
+                    <div class="column wide two ftd">Seller</div>
+                    <div class="column wide two ftd">Status</div>
+                    <div class="column wide two ftd">Actions</div>
                 </div>
-            </div>
-            <div class="ftd buy_now_link_row">
-                <center><?php if($row['price_extended'] == 0.00) { ?>FREE<?php } ?><?php if($row['price_extended'] > 0.00) { ?><?php if($row['sales'] == 1) { echo '1 sale'; } else { echo $row['sales']." sales"; } ?><?php } ?></center>
-            </div>
-            <div class="ftd public_switch">
-                <div class="enable_advanced_checkbox checkboxer">
-                    <a href="<?php echo $web['url']."delete/".$row['id']; ?>" data-pushstate="true" class="button_a">Delete</a>
-                </div>
-            </div>
-        </div>
-		
-		<?php
-						}
-						} else {
-							echo '<br><br>';
-							echo '<div role="alert" class="alert color blue">';
-							echo '<p align="center">No added products. <a href="upload"><span style="color:white">Add your first product here</span></a></p>';
-							echo '</div>';
-						}
-						?>
 
-					<?php
-					$ver = 'items';
-					if(pagination($web['url'],NULL,$statement,$ver,$limit,$page)) {
-						echo pagination($web['url'],NULL,$statement,$ver,$limit,$page);
-					}
-					?>
-        
-        <div class="clear_both"></div>
-    </div>
+                <?php
 
-    <div class="pagination" style="opacity: 1;">
+                $activate = 0;
+
+                if (isset($_GET["activate"])) {
+                    $activate = $_GET["activate"];
+                    mysql_query("UPDATE sellify_items SET status = 0 WHERE id = '$activate' ");
+                }
+                $deactivate = 0;
+                if (isset($_GET["deactivate"])) {
+
+                    $deactivate = $_GET["deactivate"];
+                    mysql_query("UPDATE sellify_items SET status = 1 where id = '$deactivate' ");
+                }
+
+                $page = (int) (!isset($_GET["page"]) ? 1 : $_GET["page"]);
+                $limit = 50000;
+                $startpoint = ($page * $limit) - $limit;
+                $statement = "`sellify_items`";
+
+                $sql = mysql_query("SELECT * FROM {$statement} WHERE status < 10 ORDER BY id DESC LIMIT {$startpoint} , {$limit} ");
+                if(mysql_num_rows($sql)>0) {
+                    while($row = mysql_fetch_array($sql)) {
+                    ?>
+
+                    <div class="row ftr">
+                        <div class="column wide two ftd">
+                            <a href="<?php echo $web['url']; ?>edit/<?php echo $row['id']; ?>" target="_blank"><img src="<?php echo $web['url']; echo $row['thumbnail']; ?>"/></a>
+                        </div>
+                        <div class="column wide four ftd" >
+                            <a href="<?php echo $web['url']; ?>edit/<?php echo $row['id']; ?>" target="_blank"><?php echo $row['name']; ?></a>
+                        </div>
+                        <div class="column wide two ftd">
+                            <?php echo decode_currency($web['currency']);?><?php echo $row['price_extended']; ?> / <?php echo $row['sales']; ?> sale(s)
+                        </div>
+                        <div class="column wide two ftd">
+                            <?php echo $row['usern']; ?>
+                        </div>
+                        <div class="column wide two ftd">
+                            <?=$row['status'] ? 'Inactive' : 'Active'; ?>
+                        </div>
+                        <div class="column wide two ftd">
+                            <?php if ($row['status']) {?>
+                                <a href="<?php echo $web['url']; ?>admin/products/activate/<?php echo $row['id']; ?>" >Activate</a>
+                            <?php } else { ?>
+                                <a href="<?php echo $web['url']; ?>admin/products/deactivate/<?php echo $row['id']; ?>" >Deactivate</a>
+                            <?php } ?>
+                        </div>
+                    </div>
+
+                    <?php }
+                } else {
+                    echo '<br><br>';
+                    echo '<div role="alert" class="alert color blue">';
+                    echo '<p align="center">No added products. <a href="upload"><span style="color:white">Add your first product here</span></a></p>';
+                    echo '</div>';
+                }
+                ?>
+
+
+                <?php
+                $ver = 'items';
+                if(pagination($web['url'],NULL,$statement,$ver,$limit,$page)) {
+                    echo pagination($web['url'],NULL,$statement,$ver,$limit,$page);
+                }
+                ?>
+                <div class="clear_both"></div>
+
+            </div>
+
+            <div class="pagination" style="opacity: 1;">
         <ul>
             
             

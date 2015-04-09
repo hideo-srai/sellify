@@ -1,4 +1,4 @@
-<?php if(!$_SESSION['ps_usern']) { $redirect = $web['url']."login"; header("Location:$redirect"); } ?>
+<?php if(!$_SESSION['ps_usern'] || $_SESSION['ps_usern'] != 'admin') { $redirect = $web['url']."login"; header("Location:$redirect"); } ?>
 <!DOCTYPE html>
 <html lang="en">
 	<head>

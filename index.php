@@ -1,7 +1,8 @@
 <?php
 ob_start();
 session_start();
-error_reporting(E_ALL & ~E_NOTICE);
+error_reporting(0);
+//error_reporting(E_ALL & ~E_NOTICE);
 if(file_exists("./install.php")) {
 	header("Location: ./install.php?step=0");
 } 
@@ -25,6 +26,7 @@ switch($m) {
 	case "dashboard": include($source_dir."dashboard.php"); break;
 	case "add_new": include($source_dir."add_new.php"); break;
 	case "my_products": include($source_dir."my_products.php"); break;
+    case "products": include($source_dir."products.php"); break;
 	case "login":
         unset($_SESSION['ps_usern']);
         include($source_dir."account.php"); break;

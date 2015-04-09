@@ -1,6 +1,6 @@
 <?php
 $id = protect($_GET['id']);
-$sql = mysql_query("SELECT * FROM sellify_items WHERE id='$id'");
+$sql = mysql_query("SELECT * FROM sellify_items WHERE id='$id' and status=0");
 if(mysql_num_rows($sql)==0) { $redirect = $web['url']."not_found"; header("Location: $redirect"); }
 $row = mysql_fetch_array($sql);
 
@@ -376,20 +376,8 @@ em {
 		$nombre1 = 12; 
 		$nombre2 = 13; 
 
-		if($row['video_url']) //Si les deux nombres sont égaux 
-		{ 
-			echo '<a class="product-image-extension">
-            <div class="noembed-embed ">
-				<div class="noembed-wrapper">    
-				  <div class="noembed-embed-inner noembed-youtube">  
-					<iframe width=" 459" height="344" src="https://www.youtube.com/embed/'.$row[video_url].'?feature=oembed&amp;wmode=transparent" frameborder="0" allowfullscreen="" style="height: 348.75px;"></iframe>
-				  </div>
-				</div>
-			</div>
-          </a>'; 
-		} 
-		elseif($row['video_url'] == 0) //Les deux nombres ne sont pas égaux mais $nombre1 est supérieur à $nombre2 
-		{ 
+		//elseif($row['video_url'] == 0) //Les deux nombres ne sont pas égaux mais $nombre1 est supérieur à $nombre2
+		{
 			echo '<a class="product-image-extension" title="'.$row['name'].'; ?>" rel="nofollow">
 			<div class="product-share">
 				<a class="ui button tiny share product-share-button" href="#embed">Share & Embed</a>
@@ -398,12 +386,12 @@ em {
 			<img itemprop="image" src="'.$web['url'].''.$row['preview'].'"/>
             
           </a>'; 
-		}
-		?>
-        
-      
+		}?>
+
+
     </div>
 	</div>
+
   <div class="row product-meta">
     <div class="ui grid">
       <div class="row product-meta-info">
@@ -412,25 +400,42 @@ em {
             <?php echo $row['name']; ?>
           </h3>
 		  
-          <?php if($row['demo_url']) { ?>
-		  <div class="ui divider"></div>
-		  <div class="column aligned center">
-			  <a class="ui button red fluid small buy-now-button" href="<?php echo $row['demo_url']; ?>" target="_blank">            
-                SEE THE DEMO          
-			  </a>
-          </div>
-		  <?php } ?>
-		  
-		  <div class="ui divider"></div>
+          <div class="ui divider"></div>
           <div class="product-description">
             <?php echo $row['description']; ?><br><br>
           </div>
+
+            <?php if($row['video_url'])  { ?>
+            <div class="ui divider"></div>
+            <div class="product-description">
+                <?php echo '<a class="product-image-extension">
+                <div class="noembed-embed ">
+                    <div class="noembed-wrapper">
+                      <div class="noembed-embed-inner noembed-youtube">
+                        <iframe width=" 459" height="344" src="https://www.youtube.com/embed/'.$row[video_url].'?feature=oembed&amp;wmode=transparent" frameborder="0" allowfullscreen="" style="height: 348.75px;"></iframe>
+                      </div>
+                    </div>
+                </div>
+              </a>'; ?>
+            </div>
+            <?php } ?>
+
+            <?php if($row['demo_url']) { ?>
+                <div class="ui divider"></div>
+                <div class="column aligned center">
+                    <a class="ui button red fluid small buy-now-button" href="<?php echo $row['demo_url']; ?>" target="_blank">
+                        SEE THE DEMO
+                    </a>
+                </div>
+            <?php } ?>
+
         </div>
       </div>
     </div>
   </div>
-  
-</div>
+
+
+              </div>
               
               </div>
             </div>
