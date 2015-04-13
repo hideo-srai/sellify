@@ -278,7 +278,7 @@
                         $update = mysql_query("UPDATE sellify_items SET thumbnail='$thumbnail_path',preview='$preview_path',main_file='$main_path' WHERE id='$row[id]'");
                         $link = '<a href="'.$web[url].'item/'.$row[id].'">'.$row[name].'</a>';
                         echo '<div class="alert color blue">';
-                        echo '<p align="center"><a href="'.$web[url].'item/'.$row[id].'"><span style="color:white">Item was added successfully. Administrator will review and approve before being published. Preview here: '.$row[name].'</span></a></p>';
+                        echo '<p align="center"><a href="'.$web[url].'item/'.$row[id].'"><span style="color:white">Item was added successfully. Administrator will review and approve before being published. </span></a></p>';
                         echo '</div>';
                     } else {
                         echo '<div class="alert color red-color">';

@@ -56,7 +56,7 @@
   <div class="row">
 	<div onmousedown="return false">
 		<p align="center">
-		<a href="<?php echo $web['url']; ?>"><img src="<?php echo $web['url']; ?>static/logo/logo.png" alt="logo" style="width:240px; height:46px;"  /></a>
+            <a href="<?php echo $web['url']; ?>"><img src="<?php echo $web['url']; ?>static/logo/logo.png" alt="logo" style="width:128px; height:55px;"  /></a>
 		</p>
 	</div>
 	
@@ -101,7 +101,7 @@
 		$limit = 50000;
 		$startpoint = ($page * $limit) - $limit;
 		$statement = "`sellify_items`";
-		$sql = mysql_query("SELECT * FROM {$statement} ORDER BY id DESC LIMIT {$startpoint} , {$limit}");
+		$sql = mysql_query("SELECT * FROM {$statement} WHERE status = 0 ORDER BY id DESC LIMIT {$startpoint} , {$limit}");
 		if(mysql_num_rows($sql)>0) {
 		while($row = mysql_fetch_array($sql)) {
 	?>

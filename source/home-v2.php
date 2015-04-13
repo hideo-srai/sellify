@@ -232,7 +232,7 @@
   <div class="row">
 	<div onmousedown="return false">
 		<p align="center">
-		<a href="<?php echo $web['url']; ?>"><img src="<?php echo $web['url']; ?>static/logo/logo.png" alt="logo" style="width:240px; height:46px;"  /></a>
+            <a href="<?php echo $web['url']; ?>"><img src="<?php echo $web['url']; ?>static/logo/logo.png" alt="logo" style="width:128px; height:55px;"  /></a>
 		</p>
 	</div>
 	
@@ -244,7 +244,7 @@
   <div class="row">
     <div class="column four wide left aligned">
       <div onmousedown="return false">
-		<a href="<?php echo $web['url']; ?>"><img src="<?php echo $web['url']; ?>static/logo/logo.png" alt="logo" style="width:240px; height:46px;"  /></a>
+          <a href="<?php echo $web['url']; ?>"><img src="<?php echo $web['url']; ?>static/logo/logo.png" alt="logo" style="width:128px; height:55px;"  /></a>
 	  </div>
     </div>
     <div class="column twelve wide right aligned connect-panel">
