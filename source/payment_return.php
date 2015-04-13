@@ -229,6 +229,24 @@
 <body class="">
 <script>ga('send', 'pageview');</script>
 
+
+
+
+<?php if(!$_SESSION['ps_usern']) { ?>
+    <div class="ui grid full-width sellfy-header">
+        <div class="row">
+            <div onmousedown="return false">
+                <p align="center">
+                    <a href="<?php echo $web['url']; ?>"><img src="<?php echo $web['url']; ?>static/logo/logo.png" alt="logo" style="width:128px; height:55px;"  /></a>
+                </p>
+            </div>
+
+        </div>
+    </div>
+<?php } ?>
+<?php if($_SESSION['ps_usern']) { ?>
+    <?php include 'menu.php' ?>
+<?php } ?>
 <div class="body">
 <div class="body-content">
 <div class="static-page-container">
@@ -238,177 +256,26 @@
 $method = protect($_GET['method']);
 if($method == "paypal") {
 
-    // read the post from PayPal system and add 'cmd'
-    $req = 'cmd=_notify-validate';
-
-    foreach ($_POST as $key => $value) {
-        $value = urlencode(stripslashes($value));
-        $req .= "&$key=$value";
-    }
-
-    /*
-    // post back to PayPal system to validate
-    $header = "POST /cgi-bin/webscr HTTP/1.0\r\n";
-    $header .= "Content-Type: application/x-www-form-urlencoded\r\n";
-    $header .= "Content-Length: " . strlen($req) . "\r\n\r\n";
-    $fp = fsockopen ('ssl://www.paypal.com', 443, $errno, $errstr, 30);
-    */
-
     // assign posted variables to local variables
-    $item_name = $_POST['item_name'];
-    $item_number = $_POST['item_number'];
-    $payment_status = $_POST['payment_status'];
-    $payment_amount = $_POST['mc_gross'];
-    $payment_currency = $_POST['mc_currency'];
-    $txn_id = $_POST['txn_id'];
-    $receiver_email = $_POST['receiver_email'];
-    $payer_email = $_POST['payer_email'];
-    $sql = mysql_query("SELECT * FROM sellify_items WHERE id='$item_number'");
-    $row = mysql_fetch_array($sql);
-    $get = mysql_fetch_array(mysql_query("SELECT * FROM sellify_users ORDER BY id LIMIT 1"));
-    $admin_email = $get['email'];
-    $pricee = $row['price_extended'];
 
+    $payment_status = $_POST['payment_status'];
     if ($payment_status == 'Completed') {
 
-        if ($receiver_email==$web['paypal_email']) {
+        echo '<div class="alert color blue">';
+        echo '<p align="center">Payment is successful. You will receive an automated message from the system with a download link and code.</p>';
+        echo '</div>';
 
-            if ($payment_currency == $web['currency']) {
-                echo '<div class="alert color blue">';
-                echo '<p align="center">Payment is successful. You will receive an automated message from the system with a download link and code.</p>';
-                echo '</div>';
-                $update = mysql_query("UPDATE sellify_settings SET earnings=earnings+$payment_amount");
-                $update = mysql_query("UPDATE sellify_items SET sales=sales+1, earnings=earnings+$payment_amount  WHERE id='$item_number'");
-                $random_password=md5(uniqid(rand()));
-                $email_code=substr($random_password, 0, 12);
-                $insert = mysql_query("INSERT sellify_download_codes (item_id,email,code) VALUES ('$item_number','$payer_email','$email_code')");
-                $time = time();
-                $insert = mysql_query("INSERT sellify_buyers (item_id,buyer_email,time) VALUES ('$item_number','$payer_email','$time')");
-                $to = $payer_email;
-                $headers  = "From: $web[email]\r\n";
-                $headers .= "Content-type: text/html\r\n";
-                $subject = 'Thanks for purchasing '.$row['name'].'';
-                //$message = "<h1 style=\"margin:35px 0 15px;text-align:center;font-weight:100;color:#393d4b;\">Thank you for your purchase!</h1>";
-                //$message .= "<a href=\"$web[url]download/$row[id]\" style=\"color:#ffffff;text-decoration:none;line-height:40px;width:100%;display:inline-block;\" target=\"_blank\">DOWNLOAD</a>";
-                //$message .= "<p>Download code: <strong>$email_code</strong></p>";
-                $message = "
-<html>
-<body>
-<div class=\"ii gt m14934b2f32ca8ef1 adP adO\">
-<div class=\"a3s\" style=\"overflow:hidden;\">
-<div style=\"padding:0px;margin:0px;font-family:Helvetica, Arial, sans-serif;font-size:14px;color:#393d4b;\">
-<table style=\"padding-top:30px;\" width=\"100%\">
-	<tbody>
-		<tr>
-			<td>
-			<table align=\"center\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"width:470px;\">
-				<tbody>
-					<tr>
-						<td style=\"border:1px solid #d1d1d1;border-radius:4px;padding:0;\">
-						<div style=\"text-align:center;color:#acafb5;\">
-						<div style=\"width:60px;border-radius:6px;margin:30px auto;text-align:center;background:#ffffff;\">&nbsp;</div>
+    }
 
-						<h1 style=\"margin:35px 0 15px;text-align:center;font-weight:100;color:#393d4b;\">Thank you for your purchase!</h1>
-
-						<p style=\"width:80%;margin:0 auto;text-align:center;color:#acafb5;\">You can download the file here:</p>
-
-						<table align=\"center\" cellpadding=\"0\" cellspacing=\"0\" style=\"margin:40px auto 10px;\">
-							<tbody>
-								<tr>
-									<td align=\"center\" bgcolor=\"#99bd44\" height=\"40\" style=\"display:block;font-size:14px;line-height:40px;font-weight:bold;border-radius:2px;border:1px solid #789c25;\" width=\"200\"><a href=\"$web[url]download/$row[id]\" style=\"color:#ffffff;text-decoration:none;line-height:40px;width:100%;display:inline-block;\" target=\"_blank\">DOWNLOAD</a></td>
-								</tr>
-							</tbody>
-						</table>
-						<small><a style=\"color:#acafb5;text-decoration:none;display:block;margin-bottom:60px;font-size:12px;\">Download code: <strong>$email_code</strong></a> </small>
-
-						<div style=\"width:100%;background:#d1d1d1;overflow:hidden;font-size:0px;\">&nbsp;</div>
-
-						</div>
-						</td>
-					</tr>
-					<tr>
-						<td style=\"text-align:center;padding-top:20px;\">&nbsp;</td>
-					</tr>
-				</tbody>
-			</table>
-			</td>
-		</tr>
-	</tbody>
-</table>
-<img alt=\"\" border=\"0\" class=\"CToWUd\" height=\"1\" src=\"\" style=\"width:1px !important;border-width:0 !important;margin-top:0 !important;margin-bottom:0 !important;margin-right:0 !important;margin-left:0 !important;padding-top:0 !important;padding-bottom:0 !important;padding-right:0 !important;padding-left:0 !important;\" width=\"1\" />
-<div class=\"yj6qo\">&nbsp;</div>
-
-<div class=\"adL\">&nbsp;</div>
-</div>
-
-<div class=\"adL\">&nbsp;</div>
-</div>
-</div>
-</body>
-</html>
-";
-
-                mail('mikael.laine211@gmail.com', $subject, $message, $headers);
-            } else {
-                echo '<div class="alert color red-color">';
-                echo '<p align="center">Error with item price or currency.</p>';
-                echo '</div>';
-            }
-
-        } else {
-            echo '<div class="alert color red-color">';
-            echo '<p align="center">Error with payment receiver.</p>';
-            echo '</div>';
-        }
-
-//					}
-
-    } else  {
+    else  {
         echo '<div class="alert color red-color">';
         echo '<p align="center">There was an error with your payment. Please try again later.</p>';
         echo '</div>';
     }
 } elseif($method == "skrill") {
-    $concatFields = $_POST['merchant_id']
-        .$_POST['transaction_id']
-        .strtoupper(md5($web['skrill_secret']))
-        .$_POST['mb_amount']
-        .$_POST['mb_currency']
-        .$_POST['status'];
-
-    $MBEmail = $web['skrill_email'];
-
-    // Ensure the signature is valid, the status code == 2,
-    // and that the money is going to you
-    if (strtoupper(md5($concatFields)) == $_POST['md5sig']
-        && $_POST['status'] == 2
-        && $_POST['pay_to_email'] == $MBEmail)
-    {
-        $item_number = $_POST['detail1_text'];
-        $item_name = $_POST['detail1_description'];
-        $payment_amount = $_POST['mb_amount'];
-        $expl = explode(", licanse: ",$item_name);
-        echo success("Payment is successful. You will receive an automated message from the system with a download link and code. With one code can be downloaded once the item.");
-        $update = mysql_query("UPDATE sellify_settings SET earnings=earnings+$payment_amount");
-        $update = mysql_query("UPDATE sellify_items SET sales=sales+1, earnings=earnings+$payment_amount WHERE id='$item_number'");
-        $random_password=md5(uniqid(rand()));
-        $email_code=substr($random_password, 0, 12);
-        $insert = mysql_query("INSERT sellify_download_codes (item_id,email,code) VALUES ('$item_number','$payer_email','$email_code')");
-        $time = time();
-        $insert = mysql_query("INSERT sellify_buyers (item_id,buyer_email,time) VALUES ('$item_number','$payer_email','$time')");
-        $to = $payer_email;
-        $headers  = "From: $web[email]\r\n";
-        $headers .= "Content-type: text/html\r\n";
-        $subject = $web[sitename].' - Download link and code';
-        $message = '<html><body><table border="0" cellspacing="2" cellpadding="2"><tr><td><span style="font-size:30px;font-weight:bold;">'.$web[sitename].'</span><br></td></tr><tr><td>Your payment was successfully and here is your download link and code:</td></tr><tr><td>Download link: <a href="'.$web[url].'download/'.$row[id].'">'.$web[url].'download/'.$row[id].'</a></td></tr><tr><td>Code for download: '.$email_code.'</td></tr></table></body></html>';
-        mail($to, $subject, $message, $headers);
-    }
-    else
-    {
-        echo '<div class="alert color red-color">';
-        echo '<p align="center">There was an error with your payment. Please try again later.</p>';
-        echo '</div>';
-    }
+    echo '<div class="alert color red-color">';
+    echo '<p align="center">There was an error with your payment. Please try again later.</p>';
+    echo '</div>';
 } else {
     echo '<div class="alert color red-color">';
     echo '<p align="center">There was an error with your payment. Please try again later.</p>';

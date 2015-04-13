@@ -6,6 +6,53 @@ $sql = mysql_query("SELECT * FROM sellify_items WHERE id='$id'");
 if(mysql_num_rows($sql)==0) { $redirect = $web['url']."not_found"; header("Location: $redirect"); }
 $row = mysql_fetch_array($sql);
 ?>
+
+<?php
+if(isset($_POST['do_download'])) {
+    $email = protect($_POST['email']);
+    $code = protect($_POST['code']);
+    $sql = mysql_query("SELECT * FROM sellify_download_codes WHERE item_id='$id' and email='$email' and code='$code'");
+    if(mysql_num_rows($sql)>0) {
+        $file = "./".$row['main_file'];
+        if(file_exists($file)) {
+            if ($fd = fopen ($file, "r")) {
+                $fsize = filesize($file);
+                $path_parts = pathinfo($file);
+                $ext = strtolower($file["extension"]);
+                switch ($ext) {
+                    case "pdf":
+                        header("Content-type: application/pdf");
+                        header("Content-Disposition: attachment; filename=\"".$path_parts["basename"]."\""); // use 'attachment' to force a file download
+                        break;
+                    // add more headers for other content types here
+                    default;
+                        header("Content-type: application/octet-stream");
+                        header("Content-Disposition: filename=\"".$path_parts["basename"]."\"");
+                        break;
+                }
+                header("Content-length: $fsize");
+                header("Cache-control: private"); //use this to open files directly
+                while(!feof($fd)) {
+                    $buffer = fread($fd, 2048);
+                    echo $buffer;
+                }
+            }
+            fclose ($fd);
+            exit;
+        } else {
+            echo '<div class="alert color red-color">';
+            echo '<p align="center">File does not exists. Please contact our support.</p>';
+            echo '</div>';
+        }
+    } else {
+        echo '<div class="alert color red-color">';
+        echo '<p align="center">Download fail! Wrong item, email address or code.</p>';
+        echo '</div>';
+    }
+    exit;
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -248,7 +295,7 @@ $row = mysql_fetch_array($sql);
   <div class="row">
 	<div onmousedown="return false">
 		<p align="center">
-            <a href="<?php echo $web['url']; ?>"><img src="<?php echo $web['url']; ?>static/logo/logo.png" alt="logo" style="width:128px; height:55px;"  /></a>
+		<a href="<?php echo $web['url']; ?>"><img src="<?php echo $web['url']; ?>static/logo/logo.png" alt="logo" style="width:240px; height:46px;"  /></a>
 		</p>
 	</div>
 	
@@ -262,41 +309,7 @@ $row = mysql_fetch_array($sql);
     <div class="body-content">
     
 			<center>
-			<?php
-					if(isset($_POST['do_download'])) {
-						$email = protect($_POST['email']);
-						$code = protect($_POST['code']);
-						$sql = mysql_query("SELECT * FROM sellify_download_codes WHERE item_id='$id' and email='$email' and code='$code'");
-						if(mysql_num_rows($sql)>0) {
-							$file = "./".$row['main_file'];
-							if(file_exists($file)) {
-								echo '<div class="alert color blue">';
-								echo '<p align="center">Downloading a $row[name] is successfully.</p>';
-								echo '</div>';
-								header('Content-Description: File Transfer');
-								header('Content-Type: application/octet-stream');
-								header('Content-Disposition: attachment; filename='.basename($file));
-								header('Content-Transfer-Encoding: binary');
-								header('Expires: 0');
-								header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
-								header('Pragma: public');
-								header('Content-Length: ' . filesize($file));
-								ob_clean();
-								flush();
-								readfile($file);
-								exit;
-							} else {
-								echo '<div class="alert color red-color">';
-								echo '<p align="center">File does not exists. Please contact our support.</p>';
-								echo '</div>';
-							}
-						} else {
-							echo '<div class="alert color red-color">';
-							echo '<p align="center">Download fail! Wrong item, email address or code.</p>';
-							echo '</div>';
-						}
-					}
-					?>
+
 			</center>
     
         <div class="content product-page-content">

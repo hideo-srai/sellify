@@ -23,6 +23,7 @@ switch($m) {
 	case "download": include($source_dir."new_download.php"); break;
 	case "delete": include($source_dir."delete.php"); break;
 	case "check_payment": include($source_dir."check_payment.php"); break;
+	case "payment_return": include($source_dir."payment_return.php"); break;
 	case "dashboard": include($source_dir."dashboard.php"); break;
 	case "add_new": include($source_dir."add_new.php"); break;
 	case "my_products": include($source_dir."my_products.php"); break;

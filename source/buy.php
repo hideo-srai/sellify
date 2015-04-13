@@ -275,12 +275,12 @@ $row = mysql_fetch_array($sql);
 					$p -> admin_mail = EMAIL_ADD; 
 						$this_script = $web['url']."payment/";
 						$item_name = $row['name']."";
-						$p->add_field('business', PAYPAL_EMAIL_ADD); //don't need add this item. if your set the $p -> paypal_mail.
-						$p->add_field('return', $this_script.'&action=success');
-						$p->add_field('cancel_return', $this_script.'&action=cancel');
-						$p->add_field('notify_url', $this_script.'&action=ipn');
-						$p->add_field('item_name', $item_name);
-						$p->add_field('item_number', $id);
+                        $p->add_field('business', PAYPAL_EMAIL_ADD); //don't need add this item. if your set the $p -> paypal_mail.
+                        $p->add_field('return', $web['url'].'payment/return?action=success');
+                        $p->add_field('notify_url', $web['url'].'payment/ipn');
+                        $p->add_field('cancel_return',$web['url'].'p/'.$id);
+                        $p->add_field('item_name', $item_name);
+                        $p->add_field('item_number', $id);
 						$p->add_field('amount', $row['price_regular']);
 						$p->add_field('currency_code', $web['currency']);
 						$p->add_field('cmd', '_xclick');
@@ -305,10 +305,10 @@ $row = mysql_fetch_array($sql);
 						$this_script = $web['url']."payment/";
 						  $item_name = $row['name']."";
 						$p->add_field('business', PAYPAL_EMAIL_ADD); //don't need add this item. if your set the $p -> paypal_mail.
-						$p->add_field('return', $this_script.'&action=success');
-						$p->add_field('cancel_return', $this_script.'&action=cancel');
-						$p->add_field('notify_url', $this_script.'&action=ipn');
-						$p->add_field('item_name', $item_name);
+                        $p->add_field('return', $web['url'].'payment/return?action=success');
+                        $p->add_field('notify_url', $web['url'].'payment/ipn');
+                        $p->add_field('cancel_return',$web['url'].'p/'.$id);
+                        $p->add_field('item_name', $item_name);
 						$p->add_field('item_number', $id);
 						$p->add_field('amount', $row['price_extended']);
 						$p->add_field('currency_code', $web['currency']);

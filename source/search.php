@@ -102,7 +102,7 @@
 						$phps_query = protect($_POST['phps_query']);
 						if(isset($_POST['phps_search'])) {
 							echo info("<h1 class='t-body -size-xl'>Results for: <strong>$phps_query</strong></h1>");
-							$sql = mysql_query("SELECT * FROM sellify_items WHERE name LIKE '%$phps_query%' ORDER BY id DESC");
+							$sql = mysql_query("SELECT * FROM sellify_items WHERE name LIKE '%$phps_query%' AND status=0 ORDER BY id DESC");
 							if(mysql_num_rows($sql)>0) {
 							while($row = mysql_fetch_array($sql)) {
 							?>
