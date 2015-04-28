@@ -25,7 +25,7 @@
                         <p style="font-weight:bold"><span style="color:black"><?php echo $_SESSION['ps_usern'] ?></span></p>
                     </a>
                     <a class="hidden" href="<?php echo $web['url']; ?>">
-                        View my store page <span>&nbsp;</span><span>&nbsp;</span><span>&nbsp;</span><span>&nbsp;</span><i class="fa fa-angle-right"></i>
+                        View store page <span>&nbsp;</span><span>&nbsp;</span><span>&nbsp;</span><span>&nbsp;</span><i class="fa fa-angle-right"></i>
                     </a>
                 </div>
                 <div class="ui divider"></div>

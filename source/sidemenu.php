@@ -20,6 +20,7 @@
                 </div>
                 <div class="item">
                     <div class="menu submenu">
+                        <a href="/admin/users" data-pushstate="true" class="red item">Users</a>
                         <a href="/admin/products" data-pushstate="true" class="red item">Products</a>
                         <a href="/admin/settings" data-pushstate="true" class="red item">System Settings</a>
                         <a href="/admin/payments" data-pushstate="true" class="item red">Payment Settings</a>

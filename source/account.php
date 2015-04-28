@@ -320,14 +320,28 @@
 				$phps_passwd = md5($phps_passwd);
 				$query = mysql_query("SELECT * FROM sellify_users WHERE usern='$phps_usern' and passwd='$phps_passwd'");
 				if(mysql_num_rows($query)) {
-					$_SESSION['ps_usern'] = $phps_usern;
-					header("Location: $web[url]dashboard");
+                    $row = mysql_fetch_assoc($query);
+                    if ($row['status'] == 0)  {
+                        $_SESSION['ps_usern'] = $phps_usern;
+                        header("Location: $web[url]dashboard");
+                    } else {
+                        echo '<div class="alert color red-color">';
+                        echo '<p align="center">Oops! You account is still under review.</p>';
+                        echo '</div>';
+                    }
+
 				} else {
 					echo '<div class="alert color red-color">';
 					echo '<p align="center">Oops! You have entered wrong username or password</p>';
 					echo '</div>';
 				}
 			}
+            if ($_SESSION['jsu'] == true) {
+                unset($_SESSION['jsu']);
+                echo '<div class="alert alert-info">';
+                echo '<p align="center">You just signed up, the administrator will notify you once approved.</p>';
+                echo '</div>';
+            }
 			?>
     <form action="" method="POST" role="form" accept-charset="utf-8" class="ui form">
         

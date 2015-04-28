@@ -28,6 +28,7 @@ switch($m) {
 	case "add_new": include($source_dir."add_new.php"); break;
 	case "my_products": include($source_dir."my_products.php"); break;
     case "products": include($source_dir."products.php"); break;
+    case "users": include($source_dir."users.php"); break;
 	case "login":
         unset($_SESSION['ps_usern']);
         include($source_dir."account.php"); break;
