@@ -249,6 +249,7 @@
     <div class="ui header">Sign up to <?php echo $web['title']; ?></div>
 			<?php 
 			if(isset($_POST['phps_signup'])) {
+				$phps_name = protect($_POST['phps_name']);
 				$phps_usern = protect($_POST['phps_usern']);
                 $email = protect($_POST['phps_email']);
 
@@ -266,7 +267,7 @@
                         echo '</div>';
                     } else {
                         $passwd = md5($phps_passwd);
-                        $insert = mysql_query("INSERT sellify_users (usern, passwd, email) VALUES ('$phps_usern','$passwd','$email')");
+                        $insert = mysql_query("INSERT sellify_users (usern, name, passwd, email) VALUES ('$phps_usern', '$phps_name', '$passwd','$email')");
                         header("Location: ./login");
                     }
 
@@ -276,16 +277,19 @@
     <form action="" method="POST" role="form" accept-charset="utf-8" class="ui form">
         
         <div class="field">
-			<input tabindex="1" type="email" placeholder="Email" class="form-control" name="phps_email" autofocus>
+			<input tabindex="1" type="text" placeholder="Full Name" class="form-control" name="phps_name" autofocus>
         </div>
         <div class="field">
-            <input tabindex="2" type="text" placeholder="Username" class="form-control" name="phps_usern" autofocus>
+			<input tabindex="2" type="email" placeholder="Email" class="form-control" name="phps_email" autofocus>
         </div>
         <div class="field">
-            <input tabindex="3" type="password" placeholder="Password" class="form-control" name="phps_passwd" autocomplete="off">
+            <input tabindex="3" type="text" placeholder="Username" class="form-control" name="phps_usern" autofocus>
         </div>
         <div class="field">
-            <input tabindex="4" type="password" placeholder="Confirm Password" class="form-control" name="phps_passwd_conf" autocomplete="off">
+            <input tabindex="4" type="password" placeholder="Password" class="form-control" name="phps_passwd" autocomplete="off">
+        </div>
+        <div class="field">
+            <input tabindex="5" type="password" placeholder="Confirm Password" class="form-control" name="phps_passwd_conf" autocomplete="off">
         </div>
 
         <div class="field button_submit_wrap">
