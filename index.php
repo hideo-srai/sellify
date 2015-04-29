@@ -29,6 +29,9 @@ switch($m) {
 	case "my_products": include($source_dir."my_products.php"); break;
     case "products": include($source_dir."products.php"); break;
     case "users": include($source_dir."users.php"); break;
+    case "forgot":
+        unset($_SESSION['ps_usern']);
+        include($source_dir."forgot.php"); break;
 	case "login":
         unset($_SESSION['ps_usern']);
         include($source_dir."account.php"); break;
@@ -38,7 +41,7 @@ switch($m) {
 	case "home": include($source_dir."home.php"); break;
 	case "settings": include($source_dir."settings.php"); break;
 	case "payments": include($source_dir."payment.php"); break;
-	case "change_password": include($source_dir."forgot.php"); break;
+	case "change_password": include($source_dir."change_password.php"); break;
 	case "not_found": include($source_dir."not_found.html"); break;
 	case "search": include($source_dir."search.php"); break;
 	case "logout": 

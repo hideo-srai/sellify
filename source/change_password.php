@@ -1,8 +1,9 @@
+<?php if(!$_SESSION['ps_usern']) { $redirect = $web['url']."login"; header("Location:$redirect"); } ?>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
-		<title>Login - <?php echo $web['title']; ?></title>
+		<title>Change admin password - <?php echo $web['title']; ?></title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta name="description" content="<?php echo $web['description']; ?>">
 		<meta name="author" content="Nidigo Design">
@@ -10,8 +11,8 @@
 		
 		<!-- Stylesheets -->
 		<link rel="stylesheet" href="<?php echo $web['url']; ?>static/gen/packed_global.css">
-		<link rel="stylesheet" href="<?php echo $web['url']; ?>static/gen/packed_productpage.css">
 		<link rel="stylesheet" href="<?php echo $web['url']; ?>static/gen/packed_marketplace.css">
+		<link rel="stylesheet" href="<?php echo $web['url']; ?>static/gen/packed_408fb6bf.css">
 		<link href="<?php echo $web['url']; ?>static/gen/index-ff32bbed5acf272afa0480aae0eaa0d5.css" media="all" rel="stylesheet" type="text/css" />
 		<link href="<?php echo $web['url']; ?>static/gen/index-cc0b97a49fc32ccbbd1bd6960a1574fb.css" media="all" rel="stylesheet" type="text/css" />
 		<!-- End Stylesheets -->
@@ -224,148 +225,129 @@
 }
   </style>
 </head>
-<body class="auth-page-wrap">
+<body class="">
   <script>ga('send', 'pageview');</script>
-  
-    
 
+  <?php include 'menu.php' ?>
 
-<?php if(!$_SESSION['ps_usern']) { ?>
-<div class="ui grid full-width sellfy-header">
-  <div class="row">
-	<div onmousedown="return false">
-		<p align="center">
-            <a href="<?php echo $web['url']; ?>"><img src="<?php echo $web['url']; ?>static/logo/logo.png" alt="logo" style="width:128px; height:55px;"  /></a>
-		</p>
-	</div>
-	
-  </div>
-</div>
-<?php } ?>
-<?php if($_SESSION['ps_usern']) { ?>
-    <?php include 'menu.php' ?>
-<?php } ?>
-  <div class="body">
+<div class="body">
     <div class="body-content">
-      
-<div id="login" class="content auth">
-    <div class="ui header">Reset your password.</div>
-			<?php 
-			if(isset($_POST['phps_forgot'])) {
-				$email = protect($_POST['email']);
-				$query = mysql_query("SELECT * FROM sellify_users WHERE email='$email'");
-				if(mysql_num_rows($query)) {
-                    $resetcode = substr(md5(uniqid(rand())), 0, 30);
-                    $update = mysql_query("UPDATE sellify_users SET resetcode='$resetcode' WHERE email='$email'");
-
-                    $to = $email;
-                    $headers  = "From: $web[email]\r\n";
-                    $headers .= "Content-type: text/html\r\n";
-                    $subject = 'Ouiinspire.net password reset link.';
-                    $message = "
-<html>
-<body>
-<div class=\"ii gt m14934b2f32ca8ef1 adP adO\">
-<div class=\"a3s\" style=\"overflow:hidden;\">
-<div style=\"padding:0px;margin:0px;font-family:Helvetica, Arial, sans-serif;font-size:14px;color:#393d4b;\">
-<table style=\"padding-top:30px;\" width=\"100%\">
-	<tbody>
-		<tr>
-			<td>
-			<table align=\"center\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"width:470px;\">
-				<tbody>
-					<tr>
-						<td style=\"border:1px solid #d1d1d1;border-radius:4px;padding:0;\">
-						<div style=\"text-align:center;color:#acafb5;\">
-						<div style=\"width:60px;border-radius:6px;margin:30px auto;text-align:center;background:#ffffff;\">&nbsp;</div>
-
-						<h1 style=\"margin:35px 0 15px;text-align:center;font-weight:100;color:#393d4b;\">Hi, here is your password reset link. </h1>
-
-						<p style=\"width:80%;margin:0 auto;text-align:center;color:#acafb5;\">$web[url]reset/$resetcode</p>
-
-						<table align=\"center\" cellpadding=\"0\" cellspacing=\"0\" style=\"margin:40px auto 10px;\">
-							<tbody>
-								<tr>
-									<td align=\"center\" bgcolor=\"#99bd44\" height=\"40\" style=\"display:block;font-size:14px;line-height:40px;font-weight:bold;border-radius:2px;border:1px solid #789c25;\" width=\"200\"><a href=\"$web[url]reset/$resetcode\" style=\"color:#ffffff;text-decoration:none;line-height:40px;width:100%;display:inline-block;\" target=\"_blank\">Reset now</a></td>
-								</tr>
-							</tbody>
-						</table>
-
-						<div style=\"width:100%;background:#d1d1d1;overflow:hidden;font-size:0px;\">&nbsp;</div>
-
-						</div>
-						</td>
-					</tr>
-					<tr>
-						<td style=\"text-align:center;padding-top:20px;\">&nbsp;</td>
-					</tr>
-				</tbody>
-			</table>
-			</td>
-		</tr>
-	</tbody>
-</table>
-<img alt=\"\" border=\"0\" class=\"CToWUd\" height=\"1\" src=\"\" style=\"width:1px !important;border-width:0 !important;margin-top:0 !important;margin-bottom:0 !important;margin-right:0 !important;margin-left:0 !important;padding-top:0 !important;padding-bottom:0 !important;padding-right:0 !important;padding-left:0 !important;\" width=\"1\" />
-<div class=\"yj6qo\">&nbsp;</div>
-
-<div class=\"adL\">&nbsp;</div>
-</div>
-
-<div class=\"adL\">&nbsp;</div>
-</div>
-</div>
-</body>
-</html>
-";
-
-                    mail($to, $subject, $message, $headers);
-
-
-                    echo '<div class="alert alert-info">';
-                    echo '<p align="center">We sent you the email with the password reset link, please check your inbox.</p>';
-                    echo '</div>';
-
-				} else {
-					echo '<div class="alert color red-color">';
-					echo '<p align="center">Email not found.</p>';
+      <div id="container" class="main-content-wrap">
+    <div id="content_wrap" class="inner_wrap">
+	<?php
+			if(isset($_POST['phps_save'])) {
+				$cur_passwd = protect($_POST['cur_passwd']);
+				$cur_passwd = md5($cur_passwd);
+				$new_passwd = protect($_POST['new_passwd']);
+				$cnew_passwd = protect($_POST['cnew_passwd']);
+				$passwd = md5($new_passwd);
+				
+				if(empty($cur_passwd) or empty($new_passwd) or empty($cnew_passwd)) { echo '<div class="alert color red-color"><p align="center">All fields are required.</p></div>'; }
+				elseif(idinfo($_SESSION['ps_usern'],"passwd") !== $cur_passwd) { echo '<div class="alert color red-color"><p align="center">Current password does not match.</p></div>'; }
+				elseif($new_passwd !== $cnew_passwd) { echo '<div class="alert color red-color"><p align="center">The new password does not match the password for confirmation.</p></div>'; }
+				else {
+					$update = mysql_query("UPDATE sellify_users SET passwd='$passwd' WHERE usern='$_SESSION[ps_usern]'");
+					echo '<div class="alert color blue">';
+					echo '<p align="center">Your password was changed.</p>';
 					echo '</div>';
 				}
 			}
 			?>
-    <form action="" method="POST" role="form" accept-charset="utf-8" class="ui form">
-        
-        <div class="field">
-			<input tabindex="1" type="text" placeholder="Enter your email" class="form-control" name="email" autofocus>
+        <div id="container_for_notification">
+    <div id="notification_box" class="ui message message-notification">
+        <i id="not_icon" class="warning icon"></i>
+        <div id="not_message"></div>
+        <div class="message-notification-icons">
+            <i id="not_confirm" class="checkmark icon" title="Confirm"></i>
+            <i id="not_close" class="close icon" title="Close"></i>
         </div>
-        <div class="field button_submit_wrap">
-              <button type="submit" name="phps_forgot" class="ui red submit button"><i class="fa fa-sign-in"></i> Reset password </button>
-        </div>
+    </div>
+</div>
+        <?php include 'sidemenu.php' ?>
 
-        <div class="field button_submit_wrap">
-            <a href="/login" >Log in</a>
+        <div id="content_container">
+    <div id="content">
+        <!-- PAGE TITLE --->
+        <div id="container_for_title">
+    <div class="head-description">
+        
+        <h2>Change Password</h2>
+        <p></p>
+        <span class="icon  without-description"></span>
+    </div>
+</div>
+        <!-- TABS -->
+        <div id="container_for_tabs"></div>
+        <!-- CONTENT -->
+        <div id="container_for_page_body">
+<form class="ui form" action="" method="POST">
+    <div class="userpage_content">
+        <div class="ui grid settings-wrap">
+            <div class="row">
+                <div class="column field">
+                    <label>Current password</label>
+                    <input name="cur_passwd" type="password" autocomplete="off">
+                </div>
+            </div>
+            <div class="row">
+                <div class="column field">
+                    <label>New password</label>
+                    <input name="new_passwd" type="password" autocomplete="off">
+                </div>
+            </div>
+            <div class="row">
+                <div class="column field">
+                    <label>Confirm new password</label>
+                    <input name="cnew_passwd" type="password" autocomplete="off">
+                </div>
+            </div>
         </div>
-    </form>
+    </div>
+    <div class="setting-button-holder">
+        <div class="submit-container">
+            <button type="submit" name="phps_save" class="ui button red">Update password</button>
+        </div>
+    </div>
+</form>
 </div>
 
+        <div id="container_for_pagintion"></div>
+    </div>
+</div>
+    </div>
+</div>
+    </div>
+</div>
+
+  <div class="footer">
+  <div class="ui grid full-width footer-wrapper">
+    <div class="row">
+      <div class="column wide six copyright">
+        <span style="color:white">&copy; 2014 <strong>Nidigo (Ltd.) Company</strong>. Tous droits réservés</span>
+      </div>
+      <div class="column wide ten ui menu horizontal text">
+        <a class="item" href="http://www.nidigo.com/mentions-legales/">
+          Mentions l&eacute;gales
+        </a>
+        <a class="item" href="http://discuss.nidigo.com/" target="_blank">
+          Support
+        </a>
+        <a class="item" href="http://www.nidigo.com/conditions-generales-de-vente/">
+          Termes
+        </a>
+		<a class="item" href="http://www.nidigo.com/licence/">
+          Licence
+        </a>
+        <a class="item footer-social" href="https://twitter.com/NidigoNetwork" target="_blank" >
+          <i class="fa fa-twitter-square"></i>
+        </a>
+        <a class="item footer-social" href="https://www.facebook.com/850851501614335" target="_blank">
+          <i class="fa fa-facebook-square"></i>
+        </a>
+      </div>
     </div>
   </div>
-<footer id="footer" class="site-footer">
-  <div class="site-footer__primary">
-    <div class="footer-primary">
-	  <div class="grid-container">
-		<div class="footer-top">
-		<center>
-			<div href="#" class="marketplace-stats__stat">
-				<span> Thank you for visiting our website and </span> we wish you much happiness <span>with our products.</span>
-			</div>
-		</center>
-		</div>
-	  </div>
-      <div class="footer-bottom">
-		<p align="center"><span style="color:white">&copy; <?php echo date("Y"); ?> <?php echo $web['sitename']; ?>. All rights reserved | Propulsed by <a href="http://codecanyon.net/item/sellify-sell-your-digital-products/10122052?ref=Nidigo"><span style="color:white"><u>Sellify</u></span></a></span></p>
-	  </div>
-    </div>
-  </div>
+</div>
 </footer>
 
   <script type="text/javascript" src="<?php echo $web['url']; ?>static/gen/packed_global.js"></script>
@@ -427,5 +409,10 @@ window.twttr = (function (d,s,id) {
 		return false;
 	}); 
 	</script>
+  
+    <script type="text/javascript" src="<?php echo $web['url']; ?>static/gen/packed_user_new_backbone.js"></script>
+    <script type="text/javascript" src="<?php echo $web['url']; ?>static/gen/packed_user_app2396ba46.js"></script>
+    <script type="text/javascript" src="<?php echo $web['url']; ?>static/gen/packed_user4cdf78c5.js"></script>
+  
 </body>
 </html>

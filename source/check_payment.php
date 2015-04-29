@@ -348,7 +348,7 @@ if($method == "paypal") {
 </html>
 ";
 
-                mail('mikael.laine211@gmail.com', $subject, $message, $headers);
+                mail('buyer@ouiinspire.net', $subject, $message, $headers);
             } else {
                 echo '<div class="alert color red-color">';
                 echo '<p align="center">Error with item price or currency.</p>';

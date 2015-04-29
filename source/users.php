@@ -3,7 +3,7 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
-		<title>My Products - <?php echo $web['title']; ?></title>
+		<title>Users - <?php echo $web['title']; ?></title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta name="description" content="<?php echo $web['description']; ?>">
 		<meta name="author" content="Nidigo Design">
@@ -329,7 +329,6 @@
 								</tr>
 							</tbody>
 						</table>
-						<small><a style=\"color:#acafb5;text-decoration:none;display:block;margin-bottom:60px;font-size:12px;\">Download code: <strong>$email_code</strong></a> </small>
 
 						<div style=\"width:100%;background:#d1d1d1;overflow:hidden;font-size:0px;\">&nbsp;</div>
 
@@ -390,7 +389,7 @@
                             <?php echo $row['email']; ?>
                         </div>
                         <div class="column wide five ftd">
-                            <?php echo $row['portfolio_url']; ?>
+                            <a href="<?php echo $row['portfolio_url']; ?>" target="_blank"><?php echo $row['portfolio_url']; ?></a>
                         </div>
                         <div class="column wide two ftd">
                             <?= $row['status'] ? 'Inactive' : 'Active'; ?>
