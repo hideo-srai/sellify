@@ -278,10 +278,11 @@
             <div cellspacing="0" class="ui grid product_table all_products ftable ">
 
                 <div class="row ftr caption ">
-                    <div class="column wide four ftd">Name</div>
-                    <div class="column wide six ftd">Email</div>
+                    <div class="column wide two ftd">Name</div>
+                    <div class="column wide four ftd">Email</div>
+                    <div class="column wide five ftd">Portfolio Url</div>
                     <div class="column wide two ftd">Status</div>
-                    <div class="column wide four ftd">Actions</div>
+                    <div class="column wide three ftd">Actions</div>
                 </div>
 
                 <?php
@@ -382,16 +383,19 @@
                     ?>
 
                     <div class="row ftr">
-                        <div class="column wide four ftd" >
+                        <div class="column wide two ftd" >
                             <?php echo $row['name']; ?>
                         </div>
-                        <div class="column wide six ftd">
+                        <div class="column wide four ftd">
                             <?php echo $row['email']; ?>
+                        </div>
+                        <div class="column wide five ftd">
+                            <?php echo $row['portfolio_url']; ?>
                         </div>
                         <div class="column wide two ftd">
                             <?= $row['status'] ? 'Inactive' : 'Active'; ?>
                         </div>
-                        <div class="column wide four ftd">
+                        <div class="column wide three ftd">
                             <?php if ($row['status']) {?>
                                 <a href="<?php echo $web['url']; ?>admin/users/activate/<?php echo $row['id']; ?>" >Activate</a>
                             <?php } else { ?>

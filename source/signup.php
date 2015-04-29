@@ -252,6 +252,7 @@
 				$phps_name = protect($_POST['phps_name']);
 				$phps_usern = protect($_POST['phps_usern']);
                 $email = protect($_POST['phps_email']);
+                $portfolio = protect($_POST['phps_portfolio']);
 
                 $query = mysql_query("SELECT * FROM sellify_users WHERE usern='$phps_usern' or email='$email'");
                 if(mysql_num_rows($query)) {
@@ -267,7 +268,7 @@
                         echo '</div>';
                     } else {
                         $passwd = md5($phps_passwd);
-                        $insert = mysql_query("INSERT sellify_users (usern, name, passwd, email, status) VALUES ('$phps_usern', '$phps_name', '$passwd','$email', 1)");
+                        $insert = mysql_query("INSERT sellify_users (usern, name, passwd, email, portfolio_url, status) VALUES ('$phps_usern', '$phps_name', '$passwd', '$email', '$portfolio', 1)");
                         $_SESSION['jsu'] = true;
                         header("Location: ./login?s=jsu");
                     }
@@ -290,6 +291,9 @@
         </div>
         <div class="field">
             <input tabindex="5" type="password" placeholder="Confirm Password" class="form-control" name="phps_passwd_conf" autocomplete="off">
+        </div>
+        <div class="field">
+            <input tabindex="6" type="text" placeholder="Your portfolio url" class="form-control" name="phps_portfolio" autofocus>
         </div>
 
         <div class="field button_submit_wrap">
