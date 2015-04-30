@@ -1,8 +1,8 @@
 <?php
 ob_start();
 session_start();
-//error_reporting(0);
-error_reporting(E_ALL & ~E_NOTICE);
+error_reporting(0);
+//error_reporting(E_ALL & ~E_NOTICE);
 if(file_exists("./install.php")) {
 	header("Location: ./install.php?step=0");
 } 
@@ -12,6 +12,7 @@ $web = mysql_fetch_array(mysql_query("SELECT * FROM sellify_settings ORDER BY id
 $url = $web['url'];
 include("includes/functions.php");
 include("includes/paypal_class.php");
+include("includes/PHPMailer/PHPMailerAutoload.php");
 $source_dir = 'source/';
 $resource_dir = 'resource/';
 
@@ -28,6 +29,7 @@ switch($m) {
 	case "add_new": include($source_dir."add_new.php"); break;
 	case "my_products": include($source_dir."my_products.php"); break;
     case "products": include($source_dir."products.php"); break;
+    case "customers": include($source_dir."customers.php"); break;
     case "users": include($source_dir."users.php"); break;
     case "forgot":
         unset($_SESSION['ps_usern']);
@@ -43,7 +45,7 @@ switch($m) {
 	case "settings": include($source_dir."settings.php"); break;
 	case "payments": include($source_dir."payment.php"); break;
 	case "change_password": include($source_dir."change_password.php"); break;
-	case "not_found": include($source_dir."not_found.html"); break;
+	case "not_found": include($source_dir."error.php"); break;
 	case "search": include($source_dir."search.php"); break;
 	case "logout": 
 		unset($_SESSION['ps_usern']);

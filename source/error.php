@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+	<meta charset="utf-8">
+		<title><?php echo $web['title']; ?></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" content="<?php echo $web['description']; ?>">
+		<meta name="author" content="Nidigo Design">
+		<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+		
+		<!-- Stylesheets -->
+		<link rel="stylesheet" href="<?php echo $web['url']; ?>static/gen/packed_global.css">
+		<link rel="stylesheet" href="<?php echo $web['url']; ?>static/gen/packed_productpage.css">
+		<link rel="stylesheet" href="<?php echo $web['url']; ?>static/gen/packed_marketplace.css">
+		<link href="<?php echo $web['url']; ?>static/gen/index-ff32bbed5acf272afa0480aae0eaa0d5.css" media="all" rel="stylesheet" type="text/css" />
+		<link href="<?php echo $web['url']; ?>static/gen/index-cc0b97a49fc32ccbbd1bd6960a1574fb.css" media="all" rel="stylesheet" type="text/css" />
+		<!-- End Stylesheets -->
+	    
+		<!-- Favicons -->
+		<link rel="apple-touch-icon" sizes="57x57" href="<?php echo $web['url']; ?>static/favicons/apple-touch-icon-57x57.png">
+		<link rel="apple-touch-icon" sizes="114x114" href="<?php echo $web['url']; ?>static/favicons/apple-touch-icon-114x114.png">
+		<link rel="apple-touch-icon" sizes="72x72" href="<?php echo $web['url']; ?>static/favicons/apple-touch-icon-72x72.png">
+		<link rel="apple-touch-icon" sizes="144x144" href="<?php echo $web['url']; ?>static/favicons/apple-touch-icon-144x144.png">
+		<link rel="apple-touch-icon" sizes="60x60" href="<?php echo $web['url']; ?>static/favicons/apple-touch-icon-60x60.png">
+		<link rel="apple-touch-icon" sizes="120x120" href="<?php echo $web['url']; ?>static/favicons/apple-touch-icon-120x120.png">
+		<link rel="apple-touch-icon" sizes="76x76" href="<?php echo $web['url']; ?>static/favicons/apple-touch-icon-76x76.png">
+		<link rel="apple-touch-icon" sizes="152x152" href="<?php echo $web['url']; ?>static/favicons/apple-touch-icon-152x152.png">
+		<link rel="apple-touch-icon" sizes="180x180" href="<?php echo $web['url']; ?>static/favicons/apple-touch-icon-180x180.png">
+		<link rel="icon" type="image/png" href="<?php echo $web['url']; ?>static/favicons/favicon-192x192.png" sizes="192x192">
+		<link rel="icon" type="image/png" href="<?php echo $web['url']; ?>static/favicons/favicon-160x160.png" sizes="160x160">
+		<link rel="icon" type="image/png" href="<?php echo $web['url']; ?>static/favicons/favicon-96x96.png" sizes="96x96">
+		<link rel="icon" type="image/png" href="<?php echo $web['url']; ?>static/favicons/favicon-16x16.png" sizes="16x16">
+		<link rel="icon" type="image/png" href="<?php echo $web['url']; ?>static/favicons/favicon-32x32.png" sizes="32x32">
+		<meta name="msapplication-TileColor" content="#2b5797">
+		<meta name="msapplication-TileImage" content="<?php echo $web['url']; ?>static/favicons/mstile-144x144.png">
+    <!--<![endif]-->
+
+    <!--[if (lte IE 8)]>
+      <link href="//dmypbau5frl9g.cloudfront.net/assets/market/core/index_ltie9-941664f6433eb6e6e36bbd8efcface5b.css" media="all" rel="stylesheet" type="text/css" />
+      <link href="//dmypbau5frl9g.cloudfront.net/assets/market/pages/hub/index_ltie9-a13e33e46f250aea25dbf48daed71176.css" media="all" rel="stylesheet" type="text/css" />
+    <![endif]-->
+<style>
+
+#c2 {
+    margin-left: auto;
+    margin-right: auto;
+}
+</style>
+	</head>
+
+  <body data-view="app" class="">
+    <div class="page">
+
+<?php if(!$_SESSION['ps_usern']) { ?>
+<div class="ui grid full-width sellfy-header">
+  <div class="row">
+	<div onmousedown="return false">
+		<p align="center">
+            <a href="<?php echo $web['url']; ?>"><img src="<?php echo $web['url']; ?>static/logo/logo.png" alt="logo" style="width:128px; height:55px;"  /></a>
+		</p>
+	</div>
+	
+  </div>
+</div>
+<?php } ?>
+<?php if($_SESSION['ps_usern']) { ?>
+    <?php include 'menu.php' ?>
+<?php } ?>    
+
+<span>&nbsp;</span>
+
+<section class="page-section -theme-themeforest">
+  <div class="grid-container h-text-align-center">
+    <header>
+      <h1 class="t-heading -size-xxl -color-light">Everything you need for your next creative project.</h1>
+      <h2 class="t-body -size-xl -color-light">
+        Over 1 billion digital products created by a global community of designers,<br class="is-hidden-tablet-and-below">
+         developers, photographers, illustrators &amp; producers around the world.
+      </h2>
+    </header>
+    <div class="h-spacing-below--small h-spacing-above--small">
+	<form action="<?php echo $web['url']; ?>search" method="POST" class="form-search">
+	<h3 class="marketplace-search__heading -theme-dark">Search <?php echo $web['title']; ?></h3>
+		<div id="c2" class="huge-search--market -theme-dark">
+		<input type="search" class="js-marketplace-search__text -theme-dark" name="phps_query" placeholder="Search items..." <?php if(isset($_POST['phps_query'])) { echo 'value="'.$_POST[phps_query].'"'; } ?>>
+		<button class="-theme-dark" type="submit" name="phps_search" class="btn btn-default"><i class="fa fa-search"></i></button>
+		</div>
+	</form>
+    </div>
+  </div>
+</section>
+
+<section class="page-section">
+  <div class="grid-container h-text-align-center">
+    <header>
+      <h1 class="t-heading -size-xxl">Oops, something went wrong</h1>
+      <h2 class="t-body -size-xl">Page not found.</h2>
+    </header>
+
+  </div>
+</section>
+
+
+<footer class="site-footer">
+  <div class="site-footer__primary">
+    <div class="footer-primary">
+	  <div class="grid-container">
+		<div class="footer-top">
+		<center>
+			<div href="#" class="marketplace-stats__stat">
+				<span> Thank you for visiting our website and </span> we wish you much happiness <span>with our products.</span>
+			</div>
+		</center>
+		</div>
+	  </div>
+      <div class="footer-bottom">
+		<p align="center"><span style="color:white">&copy; <?php echo date("Y"); ?> <?php echo $web['sitename']; ?>. All rights reserved | Propulsed by <a href="http://codecanyon.net/item/sellify-sell-your-digital-products/10122052?ref=Nidigo"><span style="color:white"><u>Sellify</u></span></a></span></p>
+	  </div>
+    </div>
+  </div>
+</footer>
+      </div>
+    </div>
+	<script type="text/javascript" src="<?php echo $web['url']; ?>static/gen/packed_productpage_f1af34b1.js"></script>
+	<script type="text/javascript" src="<?php echo $web['url']; ?>static/gen/packed_marketplace.js"></script>
+	<script type="text/javascript" src="<?php echo $web['url']; ?>static/gen/packed_global.js"></script>
+  </body>
+</html>

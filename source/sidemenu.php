@@ -12,6 +12,7 @@
                     <div class="menu submenu">
                         <a href="/upload" data-pushstate="true" class="item red ">Add new product</a>
                         <a href="/products" data-pushstate="true" class="item red ">My products</a>
+                        <a href="/customers" data-pushstate="true" class="red item">Customers</a>
                     </div>
                 </div>
                 <?php if($_SESSION['ps_usern'] == 'admin' ) {?>

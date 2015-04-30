@@ -1,19 +1,20 @@
+<?php if(!$_SESSION['ps_usern']) { $redirect = $web['url']."login"; header("Location:$redirect"); } ?>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
-		<title>Reset password - <?php echo $web['title']; ?></title>
+		<title>My Products - <?php echo $web['title']; ?></title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta name="description" content="<?php echo $web['description']; ?>">
 		<meta name="author" content="Nidigo Design">
 		<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 		
 		<!-- Stylesheets -->
+
 		<link rel="stylesheet" href="<?php echo $web['url']; ?>static/gen/packed_global.css">
 		<link rel="stylesheet" href="<?php echo $web['url']; ?>static/gen/packed_productpage.css">
 		<link rel="stylesheet" href="<?php echo $web['url']; ?>static/gen/packed_marketplace.css">
-		<link href="<?php echo $web['url']; ?>static/gen/index-ff32bbed5acf272afa0480aae0eaa0d5.css" media="all" rel="stylesheet" type="text/css" />
-		<link href="<?php echo $web['url']; ?>static/gen/index-cc0b97a49fc32ccbbd1bd6960a1574fb.css" media="all" rel="stylesheet" type="text/css" />
+		<link rel="stylesheet" href="<?php echo $web['url']; ?>static/gen/packed_408fb6bf.css">
 		<!-- End Stylesheets -->
 	    
 		<!-- Favicons -->
@@ -219,80 +220,154 @@
 	color:#FF9742;
 }
 
+.all_products {
+    margin: 0 !important;
+    text-align: center;
+    font-size: 16px !important;
+}
+.column.wide {
+    font-size: 12px !important;
+    font-weight: normal;
+}
 #footer {
     padding-top: 50px;
 }
+
+.footer-primary{background-color:#333;padding-top:15px}@media (min-width: 1025px){.footer-primary{padding-top:30px;padding-bottom:30px}}@media (min-width: 1025px){.footer-primary__group--first{width:21.19205%;float:left;margin-right:1.3245%}}@media (min-width: 1025px){.footer-primary__group--second{width:26.82119%;float:left;margin-right:1.3245%}}@media (min-width: 1025px){.footer-primary__group--third{width:49.33775%;float:left;margin-right:1.3245%;float:right;margin-right:0}}
+
+.footer-top{padding-bottom:20px}.footer-top:after{content:"";display:table;clear:both}@media (min-width: 1025px){.footer-top{border-bottom:1px solid #444}}.footer-top__market-logo{display:block;margin:10px auto 5px;text-indent:-9999px;height:18px;width:152px}@media (min-width: 1025px){.footer-top__market-logo{margin:0}}.svg .footer-top__market-logo{background:url(//dmypbau5frl9g.cloudfront.net/assets/logos/envato_market-dee06317dbf75d406e29e1cd82fab4dd.svg);-webkit-background-size:152px 18px;background-size:152px 18px}.no-svg .footer-top__market-logo{background-image:url(//dmypbau5frl9g.cloudfront.net/assets/generated_sprites/logos-be55b74f1bd5c28ae3d49760a16b1902.png);background-position:-350px -392px}@media (min-width: 1025px){.footer-top__left{width:49%;float:left;margin-right:2%}}@media (min-width: 1025px){.footer-top__right{width:49%;float:left;margin-right:2%;float:right;margin-right:0}}
+
+.footer-bottom{clear:both;color:#999;padding-bottom:20px;text-align:center}@media (min-width: 1025px){.footer-bottom{padding-bottom:0;padding-top:30px;text-align:left}}
   </style>
 </head>
-<body class="auth-page-wrap">
+<body class="">
   <script>ga('send', 'pageview');</script>
   
-    
+  <?php include 'menu.php' ?>
 
-
-<?php if(!$_SESSION['ps_usern']) { ?>
-<div class="ui grid full-width sellfy-header">
-  <div class="row">
-	<div onmousedown="return false">
-		<p align="center">
-            <a href="<?php echo $web['url']; ?>"><img src="<?php echo $web['url']; ?>static/logo/logo.png" alt="logo" style="width:128px; height:55px;"  /></a>
-		</p>
-	</div>
-	
-  </div>
-</div>
-<?php } ?>
-<?php if($_SESSION['ps_usern']) { ?>
-    <?php include 'menu.php' ?>
-<?php } ?>
   <div class="body">
     <div class="body-content">
-      
-<div id="login" class="content auth">
-    <div class="ui header">Reset your password</div>
-			<?php 
-			if(isset($_POST['phps_reset'])) {
-				$phps_passwd = protect($_POST['phps_passwd']);
-                $phps_confirm = protect($_POST['phps_confirm']);
-                if ($phps_passwd !== $phps_confirm) {
-                    echo '<div class="alert color red-color">';
-                    echo '<p align="center">Passwords do not match.</p>';
-                    echo '</div>';
-                } else {
-                    $resetcode = protect($_POST['resetcode']);
-                    $query = mysql_query("SELECT * FROM sellify_users WHERE resetcode='$resetcode' ");
-                    if(mysql_num_rows($query)) {
-                        $row = mysql_fetch_assoc($query);
-                        $phps_passwd = md5($phps_passwd);
-                        $update = mysql_query("UPDATE sellify_users SET passwd='$phps_passwd', resetcode='' WHERE resetcode='$resetcode' ");
-                        echo '<div class="alert alert-info">';
-                        echo '<p align="center">Password has been reset successfully.</p>';
-                        echo '</div>';
-                    } else {
-                        echo '<div class="alert color red-color">';
-                        echo '<p align="center">Invalid or expired reset code.</p>';
-                        echo '</div>';
-                    }
-                }
-            }
-			?>
-    <form action="" method="POST" role="form" accept-charset="utf-8" class="ui form">
-        <input type="hidden" name="resetcode" value="<?=$_GET['code']?>">
-        <div class="field">
-            <input tabindex="1" type="password" placeholder="Password" class="form-control" name="phps_passwd" autocomplete="off">
+      <div id="container" class="main-content-wrap">
+    <div id="content_wrap" class="inner_wrap">
+        <div id="container_for_notification">
+    <div id="notification_box" class="ui message message-notification" style="position: static;">
+        <i id="not_icon" class="warning icon"></i>
+        <div id="not_message"></div>
+        <div class="message-notification-icons">
+            <i id="not_confirm" class="checkmark icon" title="Confirm"></i>
+            <i id="not_close" class="close icon" title="Close"></i>
         </div>
-        <div class="field">
-            <input tabindex="2" type="password" placeholder="Confirm Password" class="form-control" name="phps_confirm" autocomplete="off">
-        </div>
-        <div class="field button_submit_wrap">
-              <button type="submit" name="phps_reset" class="ui red submit button"><i class="fa fa-sign-in"></i> Reset </button>
-        </div>
-        <div class="field button_submit_wrap">
-            <a href="/login" >Log in</a>
-        </div>
-    </form>
+    </div>
+</div>
+        <?php include 'sidemenu.php' ?>
+
+        <div id="content_container">
+    <div id="content">
+        <!-- PAGE TITLE --->
+        <div id="container_for_title">
+    <div class="head-description">
+        
+        <h2>Customers</h2>
+        <p></p>
+        <span class="icon  without-description"></span>
+    </div>
 </div>
 
+        <!-- CONTENT -->
+        <div id="container_for_page_body">
+            <div cellspacing="0" class="ui grid product_table all_products ftable ">
+
+                <div class="row ftr caption ">
+                    <div class="column wide two ftd"></div>
+                    <div class="column wide six ftd">Buyer email</div>
+                    <div class="column wide two ftd">Item Name</div>
+                    <div class="column wide two ftd">Item Price</div>
+                    <div class="column wide two ftd">Actions</div>
+                </div>
+
+                <?php
+
+                if (isset($_GET["c"])) {
+                    $item_id = $_GET["item_id"];
+                    $buyer_email = $_GET["buyer_email"];
+
+                    $sql = mysql_query("SELECT * FROM sellify_items WHERE id='$item_id'");
+                    $row = mysql_fetch_array($sql);
+                    $file = "./".$row['main_file'];
+
+                    $email = new PHPMailer();
+                    $email->From      = 'services@ouiinspire.net';
+                    $email->FromName  = 'Ouiinspire.net services';
+                    $email->Subject   = 'Your item at Ouiinspire.net - ' . $row['name'];
+                    $email->Body      = 'The attached is the item you purchased at Ouiinspire.net';
+                    $email->AddAddress( $buyer_email );
+                    $email->AddAttachment( $file  );
+                    $email->Send();
+                }
+
+                $page = (int) (!isset($_GET["page"]) ? 1 : $_GET["page"]);
+                $limit = 50000;
+                $startpoint = ($page * $limit) - $limit;
+                $statement = "`sellify_items`";
+
+                $sql = mysql_query("SELECT * FROM
+                            (
+                            SELECT DISTINCT item_id, buyer_email
+                            FROM sellify_buyers
+                            WHERE item_id
+                            IN (SELECT id FROM sellify_items WHERE usern='{$_SESSION['ps_usern']}')
+                            ) tb1
+                            LEFT JOIN sellify_items
+                            ON tb1.item_id = sellify_items.id ");
+                if(mysql_num_rows($sql)>0) {
+                    while($row = mysql_fetch_array($sql)) {
+                    ?>
+
+                    <div class="row ftr">
+                        <div class="column wide two ftd">
+                            <a href="<?php echo $web['url']; ?>p/<?php echo $row['item_id']; ?>" target="_blank"><img src="<?php echo $web['url']; echo $row['thumbnail']; ?>"/></a>
+                        </div>
+                        <div class="column wide six ftd" >
+                            <a href="mailto:<?php echo $row['buyer_email']; ?>" ><?php echo $row['buyer_email']; ?></a>
+                        </div>
+                        <div class="column wide two ftd" >
+                            <?php echo $row['name']; ?>
+                        </div>
+                        <div class="column wide two ftd" >
+                            $<?php echo $row['price_extended']; ?>
+                        </div>
+                        <div class="column wide two ftd">
+                            <a href="<?php echo $web['url']; ?>customers/resend/<?php echo $row['id']; ?>/<?php echo $row['buyer_email']; ?>" >Send by email</a>
+                        </div>
+                    </div>
+
+                    <?php }
+                } else {
+                    echo '<br><br>';
+                    echo '<div role="alert" class="alert color blue">';
+                    echo '<p align="center">No added products. <a href="upload"><span style="color:white">Add your first product here</span></a></p>';
+                    echo '</div>';
+                }
+                ?>
+
+
+                <?php
+                $ver = 'items';
+                if(pagination($web['url'],NULL,$statement,$ver,$limit,$page)) {
+                    echo pagination($web['url'],NULL,$statement,$ver,$limit,$page);
+                }
+                ?>
+                <div class="clear_both"></div>
+
+            </div>
+        </div>
+</div>
+
+        <div id="container_for_pagintion"></div>
+    </div>
+</div>
+    </div>
+</div>
     </div>
   </div>
 <footer id="footer" class="site-footer">
@@ -302,7 +377,7 @@
 		<div class="footer-top">
 		<center>
 			<div href="#" class="marketplace-stats__stat">
-				<span> Thank you for visiting our website and </span> we wish you much happiness <span>with our products.</span>
+				<span> Thank you for visiting our website and </span> <span style="color:white">we wish you much happiness</span> <span>with our products.</span>
 			</div>
 		</center>
 		</div>
@@ -373,5 +448,10 @@ window.twttr = (function (d,s,id) {
 		return false;
 	}); 
 	</script>
+  
+    <script type="text/javascript" src="<?php echo $web['url']; ?>static/gen/packed_user_new_backbone.js"></script>
+    <script type="text/javascript" src="<?php echo $web['url']; ?>static/gen/packed_user_app2396ba46.js"></script>
+    <script type="text/javascript" src="<?php echo $web['url']; ?>static/gen/packed_user4cdf78c5.js"></script>
+  
 </body>
 </html>
