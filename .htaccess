@@ -22,6 +22,7 @@ RewriteRule ^admin/products/deactivate/(.*)?$ index.php?m=products&deactivate=$1
 RewriteRule ^admin/dashboard?$ dashboard.php [L]
 RewriteRule ^forgot/?$ index.php?m=forgot [L]
 RewriteRule ^forgot?$ index.php?m=forgot [L]
+RewriteRule ^reset/(.*)?$ index.php?m=reset&code=$1 [L]
 RewriteRule ^login/?$ index.php?m=login [L]
 RewriteRule ^login?$ index.php?m=login [L]
 RewriteRule ^signup/?$ index.php?m=signup [L]

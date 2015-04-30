@@ -32,6 +32,7 @@ switch($m) {
     case "forgot":
         unset($_SESSION['ps_usern']);
         include($source_dir."forgot.php"); break;
+    case "reset": include($source_dir."reset.php"); break;
 	case "login":
         unset($_SESSION['ps_usern']);
         include($source_dir."account.php"); break;

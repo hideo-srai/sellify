@@ -2,7 +2,7 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
-		<title>Login - <?php echo $web['title']; ?></title>
+		<title>Reset password - <?php echo $web['title']; ?></title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta name="description" content="<?php echo $web['description']; ?>">
 		<meta name="author" content="Nidigo Design">
@@ -251,99 +251,49 @@
 <div id="login" class="content auth">
     <div class="ui header">Reset your password</div>
 			<?php 
-			if(isset($_POST['phps_forgot'])) {
-				$email = protect($_POST['email']);
-				$query = mysql_query("SELECT * FROM sellify_users WHERE email='$email'");
-				if(mysql_num_rows($query)) {
-                    $resetcode = substr(md5(uniqid(rand())), 0, 30);
-                    $update = mysql_query("UPDATE sellify_users SET resetcode='$resetcode' WHERE email='$email'");
-
-                    $to = $email;
-                    $headers  = "From: $web[email]\r\n";
-                    $headers .= "Content-type: text/html\r\n";
-                    $subject = 'Ouiinspire.net password reset link.';
-                    $message = "
-<html>
-<body>
-<div class=\"ii gt m14934b2f32ca8ef1 adP adO\">
-<div class=\"a3s\" style=\"overflow:hidden;\">
-<div style=\"padding:0px;margin:0px;font-family:Helvetica, Arial, sans-serif;font-size:14px;color:#393d4b;\">
-<table style=\"padding-top:30px;\" width=\"100%\">
-	<tbody>
-		<tr>
-			<td>
-			<table align=\"center\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"width:470px;\">
-				<tbody>
-					<tr>
-						<td style=\"border:1px solid #d1d1d1;border-radius:4px;padding:0;\">
-						<div style=\"text-align:center;color:#acafb5;\">
-						<div style=\"width:60px;border-radius:6px;margin:30px auto;text-align:center;background:#ffffff;\">&nbsp;</div>
-
-						<h1 style=\"margin:35px 0 15px;text-align:center;font-weight:100;color:#393d4b;\">Hi, here is your password reset link. </h1>
-
-						<p style=\"width:80%;margin:0 auto;text-align:center;color:#acafb5;\">$web[url]reset/$resetcode</p>
-
-						<table align=\"center\" cellpadding=\"0\" cellspacing=\"0\" style=\"margin:40px auto 10px;\">
-							<tbody>
-								<tr>
-									<td align=\"center\" bgcolor=\"#99bd44\" height=\"40\" style=\"display:block;font-size:14px;line-height:40px;font-weight:bold;border-radius:2px;border:1px solid #789c25;\" width=\"200\"><a href=\"$web[url]reset/$resetcode\" style=\"color:#ffffff;text-decoration:none;line-height:40px;width:100%;display:inline-block;\" target=\"_blank\">Reset now</a></td>
-								</tr>
-							</tbody>
-						</table>
-
-						<div style=\"width:100%;background:#d1d1d1;overflow:hidden;font-size:0px;\">&nbsp;</div>
-
-						</div>
-						</td>
-					</tr>
-					<tr>
-						<td style=\"text-align:center;padding-top:20px;\">&nbsp;</td>
-					</tr>
-				</tbody>
-			</table>
-			</td>
-		</tr>
-	</tbody>
-</table>
-<img alt=\"\" border=\"0\" class=\"CToWUd\" height=\"1\" src=\"\" style=\"width:1px !important;border-width:0 !important;margin-top:0 !important;margin-bottom:0 !important;margin-right:0 !important;margin-left:0 !important;padding-top:0 !important;padding-bottom:0 !important;padding-right:0 !important;padding-left:0 !important;\" width=\"1\" />
-<div class=\"yj6qo\">&nbsp;</div>
-
-<div class=\"adL\">&nbsp;</div>
-</div>
-
-<div class=\"adL\">&nbsp;</div>
-</div>
-</div>
-</body>
-</html>
-";
-
-                    mail($to, $subject, $message, $headers);
-
-
-                    echo '<div class="alert alert-info">';
-                    echo '<p align="center">We sent you the email with the password reset link, please check your inbox.</p>';
+			if(isset($_POST['phps_reset'])) {
+				$phps_passwd = protect($_POST['phps_passwd']);
+                $phps_confirm = protect($_POST['phps_confirm']);
+                if ($phps_passwd !== $phps_confirm) {
+                    echo '<div class="alert color red-color">';
+                    echo '<p align="center">Passwords do not match.</p>';
                     echo '</div>';
+                } else {
+                    $resetcode = protect($_POST['resetcode']);
+                    $query = mysql_query("SELECT * FROM sellify_users WHERE resetcode='$resetcode' ");
+                    if(mysql_num_rows($query)) {
+                        $row = mysql_fetch_assoc($query);
+                        $phps_passwd = md5($phps_passwd);
+                        $update = mysql_query("UPDATE sellify_users SET passwd='$phps_passwd' WHERE resetcode='$resetcode' ");
+                        echo '<div class="alert alert-info">';
+                        echo '<p align="center">Password has been reset successfully.</p>';
+                        echo '</div>';
+                    } else {
+                        echo '<div class="alert color red-color">';
+                        echo '<p align="center">Invalid or expired reset code.</p>';
+                        echo '</div>';
+                    }
+                }
 
-				} else {
-					echo '<div class="alert color red-color">';
-					echo '<p align="center">Email not found.</p>';
-					echo '</div>';
-				}
-			}
+            }
 			?>
     <form action="" method="POST" role="form" accept-charset="utf-8" class="ui form">
-        
+        <input type="hidden" name="resetcode" value="<?=$_GET['code']?>">
         <div class="field">
-			<input tabindex="1" type="text" placeholder="Enter your email" class="form-control" name="email" autofocus>
+            <input tabindex="1" type="password" placeholder="Password" class="form-control" name="phps_passwd" autocomplete="off">
         </div>
+        <div class="field">
+            <input tabindex="2" type="password" placeholder="Confirm Password" class="form-control" name="phps_confirm" autocomplete="off">
+        </div>
+        
         <div class="field button_submit_wrap">
-              <button type="submit" name="phps_forgot" class="ui red submit button"><i class="fa fa-sign-in"></i> Reset password </button>
+              <button type="submit" name="phps_reset" class="ui red submit button"><i class="fa fa-sign-in"></i> Reset </button>
         </div>
 
         <div class="field button_submit_wrap">
             <a href="/login" >Log in</a>
         </div>
+
     </form>
 </div>
 
