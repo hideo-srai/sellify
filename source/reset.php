@@ -264,7 +264,7 @@
                     if(mysql_num_rows($query)) {
                         $row = mysql_fetch_assoc($query);
                         $phps_passwd = md5($phps_passwd);
-                        $update = mysql_query("UPDATE sellify_users SET passwd='$phps_passwd' WHERE resetcode='$resetcode' ");
+                        $update = mysql_query("UPDATE sellify_users SET passwd='$phps_passwd', resetcode='' WHERE resetcode='$resetcode' ");
                         echo '<div class="alert alert-info">';
                         echo '<p align="center">Password has been reset successfully.</p>';
                         echo '</div>';
